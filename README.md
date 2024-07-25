@@ -137,11 +137,19 @@ parsers: # array
         - name: 🔯 代理模式
           type: select
           proxies:
-            - 绕过大陆丨黑名单 # 黑名单模式，意为「只有命中规则的网络流量，才使用代理」
-            - 绕过大陆丨白名单 # 白名单模式，意为「没有命中规则的网络流量，统统使用代理」
+            - 🚀 负载均衡
+            - ⚡ 延迟优先
+            - 🌩️ 故障转移
+            - 🔰 选择节点
 
         - name: 🔰 选择节点
           type: select
+
+        - name: 🐟 漏网之鱼
+          type: select
+          proxies:
+            - DIRECT
+            - PROXY
 
         - name: 🛑 广告拦截
           type: select
@@ -162,38 +170,18 @@ parsers: # array
             - DIRECT
             - PROXY
 
-        - name: 绕过大陆丨黑名单
-          type: url-test
-          url: http://www.gstatic.com/generate_204
-          interval: 86400
-          proxies:
-            - DIRECT
-
-        - name: 绕过大陆丨白名单
-          type: url-test
-          url: http://www.gstatic.com/generate_204
-          interval: 86400
-          proxies:
-            - PROXY
-
         - name: PROXY
           type: url-test
           url: http://www.gstatic.com/generate_204
           interval: 86400
           proxies:
-            - 🔰 选择节点
+            - 🔯 代理模式
 
-        - name: ⚖️ 负载均衡-散列
+        - name: 🚀 负载均衡
           type: load-balance
           url: 'http://www.google.com/generate_204'
           interval: 300
           strategy: consistent-hashing
-
-        - name: ⚖️ 负载均衡-轮询
-          type: load-balance
-          url: 'http://www.google.com/generate_204'
-          interval: 300
-          strategy: round-robin
 
                   # 策略组示例
                   # - name: 分组名
@@ -209,11 +197,8 @@ parsers: # array
 
       commands:
         - proxy-groups.🔰 选择节点.proxies=[]proxyNames # 向指定策略组添加订阅中的节点名，可使用正则过滤
+        - proxy-groups.🚀 负载均衡.proxies=[]proxyNames
         - proxy-groups.🔰 选择节点.proxies.0+DIRECT # 向指定分组第一个位置添加一个 DIRECT 节点名
-        - proxy-groups.⚖️ 负载均衡-散列.proxies=[]proxyNames
-        - proxy-groups.1.proxies.0+⚖️ 负载均衡-散列
-        - proxy-groups.⚖️ 负载均衡-轮询.proxies=[]proxyNames
-        - proxy-groups.1.proxies.0+⚖️ 负载均衡-轮询
         # 一些可能用到的正则过滤节点示例，使分组更细致
         # []proxyNames|a                         # 包含a
         # []proxyNames|^(.*)(a|b)+(.*)$          # 包含a或b
@@ -245,7 +230,7 @@ parsers: # array
         - RULE-SET,Telegram,PROXY
         - GEOSITE,CN,DIRECT
         - GEOIP,CN,DIRECT,no-resolve
-        - MATCH,🔯 代理模式 # 规则之外的
+        - MATCH,🐟 漏网之鱼 # 规则之外的
       # 添加规则集
       mix-rule-providers:
         ChinaCloudServiceProvider:   # 直连-中国各类云服务商IP.
@@ -375,6 +360,43 @@ function main(params) {
   const allRegex = /^(?!.*(?:自动|故障|流量|官网|套餐|机场|订阅|年|月|失联|频道)).*$/;
   const allProxies = getProxiesByRegex(params, allRegex);
 
+  // 负载均衡
+  const Balance = {
+    name: "🚀 负载均衡",
+    type: "load-balance",
+    url: "http://www.gstatic.com/generate_204",
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Available.png",
+    interval: 300,
+    strategy: "consistent-hashing",
+    lazy: true,
+    hidden: true,
+    proxies: allProxies.length > 0 ? allProxies : ["DIRECT"]
+  };
+
+  // 故障转移
+  const Fallback = {
+    name: "🌩️ 故障转移",
+    type: "fallback",
+    url: "http://www.gstatic.com/generate_204",
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Bypass.png",
+    interval: 300,
+    timeout: 2000,
+    lazy: true,
+    hidden: true,
+    proxies: allProxies.length > 0 ? allProxies : ["DIRECT"]
+  };
+
+  // 延迟优先
+  const URLTest = {
+    name: "⚡ 延迟优先",
+    type: "url-test",
+    url: "http://www.gstatic.com/generate_204",
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Bypass.png",
+    interval: 300,
+    hidden: true,
+    proxies: allProxies.length > 0 ? allProxies : ["DIRECT"]
+  };
+
   // 代理模式
   const ProxyMode = {
     name: "🔯 代理模式",
@@ -384,7 +406,7 @@ function main(params) {
     tolerance: 20,
     timeout: 2000,
     lazy: true,
-    proxies: ["绕过大陆丨黑名单", "绕过大陆丨白名单"]
+    proxies: ["🚀 负载均衡", "⚡ 延迟优先", "🌩️ 故障转移", "🔰 选择节点"]
   };
 
   const SelectProxy = {
@@ -396,6 +418,17 @@ function main(params) {
     timeout: 2000,
     lazy: true,
     proxies: allProxies
+  };
+
+  const Unlisted = {
+    name: "🐟 漏网之鱼",
+    type: "select",
+    url: "http://www.gstatic.com/generate_204",
+    interval: 300,
+    tolerance: 20,
+    timeout: 2000,
+    lazy: true,
+    proxies: ["DIRECT", "PROXY"]
   };
 
   const BanAD = {
@@ -431,28 +464,6 @@ function main(params) {
     proxies: ["DIRECT", "PROXY"]
   };
 
-  const BypassingBlack = {
-    name: "绕过大陆丨黑名单",
-    type: "url-test",
-    url: "http://www.gstatic.com/generate_204",
-    interval: 300,
-    tolerance: 20,
-    timeout: 2000,
-    lazy: true,
-    proxies: ["DIRECT"]
-  };
-
-  const BypassingWhite = {
-    name: "绕过大陆丨白名单",
-    type: "url-test",
-    url: "http://www.gstatic.com/generate_204",
-    interval: 300,
-    tolerance: 20,
-    timeout: 2000,
-    lazy: true,
-    proxies: ["PROXY"]
-  };
-
   const PROXY = {
     name: "PROXY",
     type: "url-test",
@@ -461,38 +472,13 @@ function main(params) {
     tolerance: 20,
     timeout: 2000,
     lazy: true,
-    proxies: ["🔰 选择节点"]
+    hidden: true,
+    proxies: ["🔯 代理模式"]
   };
-
-
-  // 负载均衡
-  const Balance = {
-    name: "Balance",
-    type: "load-balance",
-    url: "http://www.gstatic.com/generate_204",
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Available.png",
-    interval: 300,
-    strategy: "consistent-hashing",
-    lazy: true,
-    proxies: allProxies.length > 0 ? allProxies : ["DIRECT"]
-  };
-
-  // 故障转移
-  const Fallback = {
-    name: "Fallback",
-    type: "fallback",
-    url: "http://www.gstatic.com/generate_204",
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Bypass.png",
-    interval: 300,
-    timeout: 2000,
-    lazy: true,
-    proxies: allProxies.length > 0 ? allProxies : ["DIRECT"]
-  };
-
 
   // 插入分组
   const groups = params["proxy-groups"] = [];
-  groups.unshift(ProxyMode, SelectProxy, BanAD, OneDrive, Emby, BypassingBlack, BypassingWhite, PROXY, Balance, Fallback);
+  groups.unshift(ProxyMode, SelectProxy, Unlisted, BanAD, OneDrive, Emby, PROXY, Balance, Fallback, URLTest);
 
   // 规则
   const rules = [
@@ -527,7 +513,7 @@ function main(params) {
     "RULE-SET,ProxyGWFList,PROXY",
     "RULE-SET,ProxyVideo,PROXY",
     "RULE-SET,Telegram,PROXY",
-    "MATCH,🔯 代理模式"
+    "MATCH,🐟 漏网之鱼"
   ];
   // 插入规则
   params.rules = rules;
