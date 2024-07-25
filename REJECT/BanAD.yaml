@@ -1,6 +1,10 @@
 payload:
   # 本碎片只包含常见广告关键字、广告联盟。无副作用，放心使用
 
+  # 特殊规则
+  - DOMAIN,datarouter.ol.epicgames.com,REJECT # GalGal2 Reject
+  - DOMAIN,datarouter-weighted.ol.epicgames.com,REJECT # GalGal2 Reject
+  
   # 广告关键词
   - DOMAIN-KEYWORD,admarvel
   - DOMAIN-KEYWORD,admaster

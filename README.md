@@ -4,9 +4,9 @@
 
 ### 文件解释
  
-[DIRECT](https://github.com/RealSeek/Clash_Rule_DIY/tree/master/DIRECT) 内所有配置文件均为直连规则  
-[PROXY](https://github.com/RealSeek/Clash_Rule_DIY/tree/master/PROXY) 内所有配置文件均为代理规则  
-[REJECT](https://github.com/RealSeek/Clash_Rule_DIY/tree/master/REJECT) 内所有配置文件均为屏蔽规则
+[DIRECT](https://github.com/TrueRou/Clash-Rules/tree/master/DIRECT) 内所有配置文件均为直连规则  
+[PROXY](https://github.com/TrueRou/Clash-Rules/tree/master/PROXY) 内所有配置文件均为代理规则  
+[REJECT](https://github.com/TrueRou/Clash-Rules/tree/master/REJECT) 内所有配置文件均为屏蔽规则
 
 ### 规则文件地址及使用方式
 > 如果无法访问域名 `raw.githubusercontent.com` 或者下载配置文件困难,有以下办法:
@@ -18,80 +18,80 @@
 
 #### 推荐DIRECT(直连)
 - **中国软件 ChinaApp.txt**：
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaApp.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaApp.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/ChinaApp.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/ChinaApp.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaApp.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaApp.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaApp.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaApp.yaml)
 
 
 - **中国各类云服务商IP ChinaCloudServiceProvider.yaml**：
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaCloudServiceProvider.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaCloudServiceProvider.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/ChinaCloudServiceProvider.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/ChinaCloudServiceProvider.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml)
 
 
 - **中国常见域名 ChinaDomain.yaml**：
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaDomain.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaDomain.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/ChinaDomain.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/ChinaDomain.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml)
 
 
 - **中国IP ChinaIP.yaml**:
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaIP.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaIP.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/ChinaIP.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/ChinaIP.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml)
 
 
 - **中国媒体列表 ChinaVideo.yaml**:
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaVideo.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaVideo.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/ChinaVideo.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/ChinaVideo.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml)
 
 
 - **中国下载客户端 DownloadClient**：
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/DownloadClient.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/DownloadClient.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/DownloadClient.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/DownloadClient.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml)
 
 
 - **中国可以直连的Google地址 GoogleCN.yaml**：
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/GoogleCN.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/GoogleCN.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/GoogleCN.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/GoogleCN.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml)
 
 
 - **局域网地址 LocalAreaNetwork.yaml**:
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/LocalAreaNetwork.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/LocalAreaNetwork.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/LocalAreaNetwork.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/DIRECT/LocalAreaNetwork.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml)
 
 
 #### 推荐PROXY(代理)
 - **奈菲 Netflix。yaml**：
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Netflix.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Netflix.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/PROXY/Netflix.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/PROXY/Netflix.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml)
 
 
 - **OneDrive OneDrive.yaml(可选DIRECT or PROXY)**:
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/OneDrive.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/OneDrive.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/PROXY/OneDrive.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/PROXY/OneDrive.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml)
 
 
 - **GWFList ProxyGWFList.yaml**:
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/ProxyGWFList.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/ProxyGWFList.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/PROXY/ProxyGWFList.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/PROXY/ProxyGWFList.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml)
 
 
 - **国外媒体列表 ProxyVideo.yaml**:
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/ProxyVideo.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/ProxyVideo.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/PROXY/ProxyVideo.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/PROXY/ProxyVideo.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml)
 
 
 - **Telegram Telegram.yaml**:
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Telegram.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Telegram.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/PROXY/Telegram.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/PROXY/Telegram.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml)
 
 
 
 #### 推荐REJECT(屏蔽)
 - **广告联盟 BanAD.yaml**：
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/BanAD.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/BanAD.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/REJECT/BanAD.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/REJECT/BanAD.yaml)
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml)
 
 - **ABP中的 EasyListChina**:
-    - [https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/BanEasyListChina.yaml](https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/BanEasyListChina.yaml)
-    - [https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/master/REJECT/BanEasyListChina.yaml](https://cdn.realseek.top/gh/RealSeek/Clash_Rule_DIY/master/REJECT/BanEasyListChina.yaml) 
+    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml)
+    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml) 
 
 ### 使用方法
 ```yaml
@@ -99,105 +99,105 @@ rule-providers:
   ChinaCloudServiceProvider:   # 直连-中国各类云服务商IP.
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaCloudServiceProvider.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml"
     path: ./ruleset/ChinaCloudServiceProvider.yaml
     interval: 1800
     
   ChinaDomain: # 直连-中国常见域名
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaDomain.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml"
     path: ./ruleset/ChinaDomain.yaml
     interval: 1800
     
   ChinaIP: # 直连-中国IP
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaIP.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml"
     path: ./ruleset/ChinaIP.yaml
     interval: 1800
     
   ChinaVideo: # 直连-中国媒体列表
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaVideo.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml"
     path: ./ruleset/ChinaVideo.yaml
     interval: 1800
     
   DownloadClient: # 直连-中国常用下载客户端
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/DownloadClient.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml"
     path: ./ruleset/DownloadClient.yaml
     interval: 1800
     
   GoogleCN: # 直连-中国可以直连的Google地址
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/GoogleCN.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml"
     path: ./ruleset/GoogleCN.yaml
     interval: 1800
     
   LocalAreaNetwork: # 直连-局域网地址
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/LocalAreaNetwork.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml"
     path: ./ruleset/LocalAreaNetwork.yaml
     interval: 1800
     
   Netflix:   # 代理-奈菲.
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Netflix.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml"
     path: ./ruleset/Netflix.yaml
     interval: 1800
     
   OneDrive:   # 代理-OneDrive.
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/OneDrive.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml"
     path: ./ruleset/OneDrive.yaml
     interval: 1800
     
   ProxyGWFList:   # 代理-GWFList.
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/ProxyGWFList.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml"
     path: ./ruleset/ProxyGWFList.yaml
     interval: 1800
     
   ProxyVideo:   # 代理-国外媒体列表.
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/ProxyVideo.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml"
     path: ./ruleset/ProxyVideo.yaml
     interval: 1800
     
   Telegram:   # 代理-Telegram.
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Telegram.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml"
     path: ./ruleset/Telegram.yaml
     interval: 1800
     
   BanAD:   # 屏蔽-广告联盟.
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/BanAD.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml"
     path: ./ruleset/BanAD.yaml
     interval: 1800
 
   BanEasyListChina: # 屏蔽广告
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/BanEasyListChina.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml"
     path: ./ruleset/BanEasyListChina.yaml
     interval: 1800
     
   ChinaApp: # 需要直连的常见软件列表
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaApp.yaml"
+    url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaApp.yaml"
     path: ./ruleset/ChinaApp.yaml
     interval: 1800
 ```
@@ -347,112 +347,112 @@ parsers: # array
         ChinaCloudServiceProvider:   # 直连-中国各类云服务商IP.
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaCloudServiceProvider.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml"
           path: ./ruleset/ChinaCloudServiceProvider.yaml
           interval: 1800
 
         ChinaDomain: # 直连-中国常见域名
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaDomain.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml"
           path: ./ruleset/ChinaDomain.yaml
           interval: 1800
 
         ChinaIP: # 直连-中国IP
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaIP.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml"
           path: ./ruleset/ChinaIP.yaml
           interval: 1800
 
         ChinaVideo: # 直连-中国媒体列表
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaVideo.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml"
           path: ./ruleset/ChinaVideo.yaml
           interval: 1800
 
         DownloadClient: # 直连-中国常用下载客户端
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/DownloadClient.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml"
           path: ./ruleset/DownloadClient.yaml
           interval: 1800
 
         GoogleCN: # 直连-中国可以直连的Google地址
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/GoogleCN.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml"
           path: ./ruleset/GoogleCN.yaml
           interval: 1800
 
         LocalAreaNetwork: # 直连-局域网地址
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/LocalAreaNetwork.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml"
           path: ./ruleset/LocalAreaNetwork.yaml
           interval: 1800
 
         Emby: # Emby
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Emby.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Emby.yaml"
           path: ./ruleset/ChinaApp.yaml
           interval: 1800
 
         Netflix:   # 代理-奈菲.
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Netflix.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml"
           path: ./ruleset/Netflix.yaml
           interval: 1800
 
         OneDrive:   # 代理-OneDrive.
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/OneDrive.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml"
           path: ./ruleset/OneDrive.yaml
           interval: 1800
 
         ProxyGWFList:   # 代理-GWFList.
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/ProxyGWFList.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml"
           path: ./ruleset/ProxyGWFList.yaml
           interval: 1800
 
         ProxyVideo:   # 代理-国外媒体列表.
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/ProxyVideo.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml"
           path: ./ruleset/ProxyVideo.yaml
           interval: 1800
 
         Telegram:   # 代理-Telegram.
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Telegram.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml"
           path: ./ruleset/Telegram.yaml
           interval: 1800
 
         BanAD:   # 屏蔽-广告联盟.
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/BanAD.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml"
           path: ./ruleset/BanAD.yaml
           interval: 1800
 
         BanEasyListChina: # 屏蔽广告
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/BanEasyListChina.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml"
           path: ./ruleset/BanEasyListChina.yaml
           interval: 1800
 
         ChinaApp: # 需要直连的常见软件列表
           type: http
           behavior: classical
-          url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaApp.yaml"
+          url: "https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaApp.yaml"
           path: ./ruleset/ChinaApp.yaml
           interval: 1800
 ```
@@ -640,22 +640,22 @@ function main(params) {
   // 远程规则资源
   const ruleProviders = {
     cn: { ...ruleAnchor.classical, url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/cn_domain.yaml', path: './ruleset/CN.yaml' },
-    ChinaCloudServiceProvider: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaCloudServiceProvider.yaml', path: './ruleset/ChinaCloudServiceProvider.yaml' },
-    ChinaDomain: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaDomain.yaml', path: './ruleset/ChinaDomain.yaml' },
-    ChinaIP: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaIP.yaml', path: './ruleset/ChinaIP.yaml' },
-    ChinaVideo: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/ChinaVideo.yaml', path: './ruleset/ChinaVideo.yaml' },
-    DownloadClient: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/DownloadClient.yaml', path: './ruleset/DownloadClient.yaml' },
-    GoogleCN: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/GoogleCN.yaml', path: './ruleset/GoogleCN.yaml' },
-    LocalAreaNetwork: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/DIRECT/LocalAreaNetwork.yaml', path: './ruleset/LocalAreaNetwork.yaml' },
-    Emby: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Emby.yaml', path: './ruleset/ChinaApp.yaml' },
-    Netflix: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Netflix.yaml', path: './ruleset/Netflix.yaml' },
-    OneDrive: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/OneDrive.yaml', path: './ruleset/OneDrive.yaml' },
-    ProxyGWFList: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/ProxyGWFList.yaml', path: './ruleset/ProxyGWFList.yaml' },
-    ProxyVideo: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/ProxyVideo.yaml', path: './ruleset/ProxyVideo.yaml' },
-    Telegram: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/PROXY/Telegram.yaml', path: './ruleset/Telegram.yaml' },
-    BanAD: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/BanAD.yaml', path: './ruleset/BanAD.yaml' },
-    BanEasyListChina: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/BanEasyListChina.yaml', path: './ruleset/BanEasyListChina.yaml' },
-    ChinaApp: { ...ruleAnchor.classical, url: 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/master/REJECT/ChinaApp.yaml', path: './ruleset/ChinaApp.yaml' }
+    ChinaCloudServiceProvider: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml', path: './ruleset/ChinaCloudServiceProvider.yaml' },
+    ChinaDomain: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml', path: './ruleset/ChinaDomain.yaml' },
+    ChinaIP: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml', path: './ruleset/ChinaIP.yaml' },
+    ChinaVideo: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml', path: './ruleset/ChinaVideo.yaml' },
+    DownloadClient: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml', path: './ruleset/DownloadClient.yaml' },
+    GoogleCN: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml', path: './ruleset/GoogleCN.yaml' },
+    LocalAreaNetwork: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml', path: './ruleset/LocalAreaNetwork.yaml' },
+    Emby: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Emby.yaml', path: './ruleset/ChinaApp.yaml' },
+    Netflix: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml', path: './ruleset/Netflix.yaml' },
+    OneDrive: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml', path: './ruleset/OneDrive.yaml' },
+    ProxyGWFList: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml', path: './ruleset/ProxyGWFList.yaml' },
+    ProxyVideo: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml', path: './ruleset/ProxyVideo.yaml' },
+    Telegram: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml', path: './ruleset/Telegram.yaml' },
+    BanAD: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml', path: './ruleset/BanAD.yaml' },
+    BanEasyListChina: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml', path: './ruleset/BanEasyListChina.yaml' },
+    ChinaApp: { ...ruleAnchor.classical, url: 'https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/ChinaApp.yaml', path: './ruleset/ChinaApp.yaml' }
   };
 
   // 插入远程规则
