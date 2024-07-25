@@ -1,6 +1,4 @@
-### Clash分流规则
- 
-自用clash规则
+## Clash分流规则
 
 ### 文件解释
  
@@ -8,92 +6,10 @@
 [PROXY](https://github.com/TrueRou/Clash-Rules/tree/master/PROXY) 内所有配置文件均为代理规则  
 [REJECT](https://github.com/TrueRou/Clash-Rules/tree/master/REJECT) 内所有配置文件均为屏蔽规则
 
-### 规则文件地址及使用方式
-> 如果无法访问域名 `raw.githubusercontent.com` 或者下载配置文件困难,有以下办法:
-> 
-> 1.可以使用第二个地址（`cdn.realseek.top`）,自行替换 `url` 配置项
-> 
-> 2.clone下来或者点击 `Code` 再点击 `Download ZIP` 然后自行将配置文件解压至配置文件目录(注意:解压后也需要修改Parsers才可自动更新和使用) 
-
-
-#### 推荐DIRECT(直连)
-- **中国软件 ChinaApp.txt**：
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaApp.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaApp.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaApp.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaApp.yaml)
-
-
-- **中国各类云服务商IP ChinaCloudServiceProvider.yaml**：
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaCloudServiceProvider.yaml)
-
-
-- **中国常见域名 ChinaDomain.yaml**：
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaDomain.yaml)
-
-
-- **中国IP ChinaIP.yaml**:
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaIP.yaml)
-
-
-- **中国媒体列表 ChinaVideo.yaml**:
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/ChinaVideo.yaml)
-
-
-- **中国下载客户端 DownloadClient**：
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/DownloadClient.yaml)
-
-
-- **中国可以直连的Google地址 GoogleCN.yaml**：
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/GoogleCN.yaml)
-
-
-- **局域网地址 LocalAreaNetwork.yaml**:
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/DIRECT/LocalAreaNetwork.yaml)
-
-
-#### 推荐PROXY(代理)
-- **奈菲 Netflix。yaml**：
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/Netflix.yaml)
-
-
-- **OneDrive OneDrive.yaml(可选DIRECT or PROXY)**:
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/OneDrive.yaml)
-
-
-- **GWFList ProxyGWFList.yaml**:
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/ProxyGWFList.yaml)
-
-
-- **国外媒体列表 ProxyVideo.yaml**:
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/ProxyVideo.yaml)
-
-
-- **Telegram Telegram.yaml**:
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/PROXY/Telegram.yaml)
-
-
-
-#### 推荐REJECT(屏蔽)
-- **广告联盟 BanAD.yaml**：
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/REJECT/BanAD.yaml)
-
-- **ABP中的 EasyListChina**:
-    - [https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml](https://cdn.jsdelivr.net/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml)
-    - [https://cdn.realseek.top/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml](https://cdn.realseek.top/gh/TrueRou/Clash-Rules/REJECT/BanEasyListChina.yaml) 
-
 ### 使用方法
+
+#### Clash 订阅规则
+
 ```yaml
 rule-providers:
   ChinaCloudServiceProvider:   # 直连-中国各类云服务商IP.
@@ -201,20 +117,8 @@ rule-providers:
     path: ./ruleset/ChinaApp.yaml
     interval: 1800
 ```
-### 白名单模式 Rule（适合不缺代理流量的）
 
-- 白名单模式，意为「**没有命中规则的网络流量，统统使用代理**」，适用于服务器线路网络质量稳定、快速，不缺服务器流量的用户。
-- 以下配置中，除了 `DIRECT` 和 `REJECT` 是默认存在于 Clash 中的 policy（路由策略/流量处理策略），其余均为自定义 policy，对应配置文件中 `proxies` 或 `proxy-groups` 中的 `name`。如你直接使用下面的 `rules` 规则，则需要在 `proxies` 或 `proxy-groups` 中手动配置一个 `name` 为 `PROXY` 的 policy。
-- 如你希望 OneDrive 列表中的域名使用代理，则把 policy 由 `DIRECT` 改为 `PROXY`，以此类推，举一反三。
-- 如你不希望进行 DNS 解析，可在 `GEOIP` 规则的最后加上 `,no-resolve`，如 `GEOIP,CN,DIRECT,no-resolve`。
-
-#### 黑名单模式 Rules 配置方式 (适合普通用户)
-
-- 黑名单模式，意为「**只有命中规则的网络流量，才使用代理**」，适用于服务器线路网络质量不稳定或不够快，或服务器流量紧缺的用户。通常也是软路由用户、家庭网关用户的常用模式。
-- 以下配置中，除了 `DIRECT` 和 `REJECT` 是默认存在于 Clash 中的 policy（路由策略/流量处理策略），其余均为自定义 policy，对应配置文件中 `proxies` 或 `proxy-groups` 中的 `name`。如你直接使用下面的 `rules` 规则，则需要在 `proxies` 或 `proxy-groups` 中手动配置一个 `name` 为 `PROXY` 的 policy。
-
-## Clash for Windows 使用
-### Parsers 预处理文件配置案例
+#### Clash for Windows 使用 Parsers 预处理文件
 ```yaml
 parsers: # array
   # - reg: ^.*$ 匹配所有订阅，或  - url: https://example.com/profile.yaml 指定订阅
@@ -457,12 +361,11 @@ parsers: # array
           interval: 1800
 ```
 
-- 按此 Parsers 订阅列表将会被替换成 黑/白名单模式
+#### Clash Verge 使用 Script 预处理功能
 
-## Clash Verge 使用（Meta 内核）
 - 注意：Clash Verge 为 Meta 内核，不支持 Parsers 预处理文件，因此无法使用上述 Parsers 配置方式。
 - 但是通过内置的 Script 功能可以实现类似 Parsers 的预处理功能。
-### Script 
+
 ```js
 // Define the `main` function
 
@@ -673,7 +576,7 @@ function getProxiesByRegex(params, regex) {
 
 - 开启后刷新订阅即可生效
 
-### 额外配置（选配）
+#### Clash Verge 额外配置（选配）
 - 使用内置的 Merge 功能可以实现类似 Mixin 配置的效果（可以不使用）
 
 ```yaml
