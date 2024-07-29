@@ -60,3 +60,4 @@ payload:
   - PROCESS-NAME,Steam.exe
   - DOMAIN-SUFFIX,game.maj-soul.com
   - PROCESS-NAME,KOOK.exe
+  - PROCESS-NAME,Sinmai.exe
