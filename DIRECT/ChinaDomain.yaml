@@ -13,6 +13,7 @@ payload:
   - DOMAIN-SUFFIX,oray.net
   - DOMAIN-SUFFIX,ppy.sb
   - DOMAIN-SUFFIX,osu.icu
+  - DOMAIN-KEYWORD,swu
   # 中国国内常见域名关键词直连
   - DOMAIN-KEYWORD,-cn
   - DOMAIN-KEYWORD,360buy
