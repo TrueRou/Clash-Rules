@@ -495,7 +495,6 @@ function main(params) {
     "GEOSITE,geolocation-!cn,PROXY",
     "GEOSITE,cn,DIRECT",
     "GEOIP,CN,DIRECT,no-resolve",
-    "DST-PORT,80/8080/443/8443,PROXY",
     "GEOIP,private,DIRECT,no-resolve",
     // 自己的规则
     "RULE-SET,ChinaApp,DIRECT",
