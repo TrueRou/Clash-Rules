@@ -169,6 +169,9 @@ payload:
   - DOMAIN-SUFFIX,30.172.in-addr.arpa
   - DOMAIN-SUFFIX,31.172.in-addr.arpa
   - DOMAIN-SUFFIX,168.192.in-addr.arpa
+  - DOMAIN-SUFFIX,ppy.sb
+  - DOMAIN-SUFFIX,osu.icu
+  - DOMAIN-SUFFIX,zretc.net
   - DOMAIN-KEYWORD,cnki.net
   - DOMAIN-KEYWORD,wanfangdata
   - DOMAIN-KEYWORD,pkulaw
@@ -178,6 +181,7 @@ payload:
   - DOMAIN-KEYWORD,elsevier
   - DOMAIN-KEYWORD,deepdyve
   - DOMAIN-KEYWORD,els-cdn
+  - DOMAIN-KEYWORD,swu
   - PROCESS-NAME,v2ray
   - PROCESS-NAME,xray
   - PROCESS-NAME,ss-local
@@ -214,3 +218,4 @@ payload:
   - PROCESS-NAME,BaiduNetdisk_mac
   - PROCESS-NAME,Logi Options
   - PROCESS-NAME,Logi Options Daemon
+  - PROCESS-NAME,Sinmai

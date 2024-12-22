@@ -104,6 +104,8 @@ payload:
   - DOMAIN-KEYWORD,smetrics.marketing.
   - DOMAIN-KEYWORD,wxsnsdy
   - DOMAIN-KEYWORD,adwords
+  - DOMAIN,datarouter.ol.epicgames.com
+  - DOMAIN,datarouter-weighted.ol.epicgames.com
   - DOMAIN-KEYWORD,-tracker.biliapi.net
   - DOMAIN-REGEX,^f-log[\w.-]*?\.grammarly\.io$
   - DOMAIN-REGEX,^[\w.-]*?\.ad\.[\w.-]*?\.prod\.hosts\.ooklaserver\.net$

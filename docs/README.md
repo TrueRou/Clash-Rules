@@ -657,8 +657,8 @@ function overwriteRules(params) {
         // 广告拦截 / 隐私保护 / Malware 拦截 / Phiishing 拦截
         Reject_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/REJECT/ip/Reject_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/REJECT/ip/Reject_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/REJECT/ip/Reject_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/REJECT/ip/Reject_ip.yaml",
         },
 
         // ##################################################################################################################
@@ -666,26 +666,26 @@ function overwriteRules(params) {
         // 广告拦截 / 隐私保护 / Malware 拦截 / Phiishing 拦截
         Reject_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/REJECT/no_ip/Reject_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/REJECT/no_ip/Reject_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/REJECT/no_ip/Reject_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/REJECT/no_ip/Reject_no_ip.yaml",
         },
 
         Reject_domainset: {
             ...ruleAnchor.domain,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/REJECT/no_ip/Reject_domainset.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/REJECT/no_ip/Reject_domainset.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/REJECT/no_ip/Reject_domainset.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/REJECT/no_ip/Reject_domainset.yaml",
         },
 
         Reject_no_ip_drop: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/REJECT/no_ip/Reject_no_ip_drop.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/REJECT/no_ip/Reject_no_ip_drop.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/REJECT/no_ip/Reject_no_ip_drop.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/REJECT/no_ip/Reject_no_ip_drop.yaml",
         },
 
         Reject_no_ip_no_drop: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/REJECT/no_ip/Reject_no_ip_no_drop.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/REJECT/no_ip/Reject_no_ip_no_drop.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/REJECT/no_ip/Reject_no_ip_no_drop.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/REJECT/no_ip/Reject_no_ip_no_drop.yaml",
         },
 
         // ##################################################################################################################
@@ -699,43 +699,43 @@ function overwriteRules(params) {
         // 国内常见互联网公司和服务的 IP
         China_ip: {
             ...ruleAnchor.ip,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/China_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/China_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/ip/China_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/ip/China_ip.yaml",
         },
 
         // 国内常见互联网公司和服务的 IP
         Domestic_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/Domestic_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/Domestic_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/ip/Domestic_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/ip/Domestic_ip.yaml",
         },
 
         // GoogleFCM IP
         GoogleFCM_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/GoogleFCM_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/GoogleFCM_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/ip/GoogleFCM_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/ip/GoogleFCM_ip.yaml",
         },
 
         // 内网域名和局域网 IP
         Lan_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/Lan_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/Lan_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/ip/Lan_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/ip/Lan_ip.yaml",
         },
 
         // 网易云音乐 ip
         NetEaseMusic_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/NetEaseMusic_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/NetEaseMusic_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/ip/NetEaseMusic_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/ip/NetEaseMusic_ip.yaml",
         },
 
         // SteamCN IP
         SteamCN_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/SteamCN_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/SteamCN_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/ip/SteamCN_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/ip/SteamCN_ip.yaml",
         },
 
         // ##################################################################################################################
@@ -743,64 +743,64 @@ function overwriteRules(params) {
         // apple CDN 云上贵州
         AppleCDN_no_ip: {
             ...ruleAnchor.domain,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/AppleCDN_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/AppleCDN_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/no_ip/AppleCDN_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/no_ip/AppleCDN_no_ip.yaml",
         },
 
         // 苹果直连域名
         AppleCN_no_ip: {
             ...ruleAnchor.domain,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/AppleCN_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/AppleCN_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/no_ip/AppleCN_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/no_ip/AppleCN_no_ip.yaml",
         },
 
         // 国内常见互联网公司和服务的域名
         Direct_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/Direct_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/Direct_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/no_ip/Direct_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/no_ip/Direct_no_ip.yaml",
         },
 
         // 国内常见互联网公司和服务的域名
         Domestic_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/Domestic_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/Domestic_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/no_ip/Domestic_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/no_ip/Domestic_no_ip.yaml",
         },
 
         // Google Fcm no ip
         GoogleFCM_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/GoogleFCM_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/GoogleFCM_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/no_ip/GoogleFCM_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/no_ip/GoogleFCM_no_ip.yaml",
         },
 
         // 内网域名和局域网 IP
         Lan_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/Lan_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/Lan_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/no_ip/Lan_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/no_ip/Lan_no_ip.yaml",
         },
 
         // 微软中国 CDN
         MicrosoftCDN_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/MicrosoftCDN_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/MicrosoftCDN_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/no_ip/MicrosoftCDN_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/no_ip/MicrosoftCDN_no_ip.yaml",
         },
 
         // 网易云音乐域名
         NetEaseMusic_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/NetEaseMusic_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/NetEaseMusic_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/no_ip/NetEaseMusic_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/no_ip/NetEaseMusic_no_ip.yaml",
         },
 
         // SteamCN 域名
         SteamCN_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/SteamCN_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/SteamCN_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/DIRECT/no_ip/SteamCN_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/DIRECT/no_ip/SteamCN_no_ip.yaml",
         },
 
         // ##################################################################################################################
@@ -814,15 +814,15 @@ function overwriteRules(params) {
         // 流媒体 IP
         Stream_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/ip/Stream_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/ip/Stream_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/ip/Stream_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/ip/Stream_ip.yaml",
         },
 
         // telegram ip
         Telegram_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/ip/Telegram_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/ip/Telegram_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/ip/Telegram_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/ip/Telegram_ip.yaml",
         },
 
         // ##################################################################################################################
@@ -830,85 +830,85 @@ function overwriteRules(params) {
         // ai 相关 包含 OpenAI、Google Gemini、Claude、Perplexity 等
         AI_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/AI_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/AI_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/AI_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/AI_no_ip.yaml",
         },
 
         // apple
         Apple_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Apple_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Apple_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/Apple_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/Apple_no_ip.yaml",
         },
 
         // 常需要代理的静态 CDN
         CDN_domainset: {
             ...ruleAnchor.domain,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/CDN_domainset.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/CDN_domainset.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/CDN_domainset.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/CDN_domainset.yaml",
         },
 
         // 常需要代理的静态 CDN
         CDN_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/CDN_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/CDN_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/CDN_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/CDN_no_ip.yaml",
         },
 
         // 存放着个人遇到需要代理的域名
         CustomProxy_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/CustomProxy_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/CustomProxy_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/CustomProxy_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/CustomProxy_no_ip.yaml",
         },
 
         // 软件更新、操作系统等大文件下载
         Download_domainset: {
             ...ruleAnchor.domain,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Download_domainset.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Download_domainset.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/Download_domainset.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/Download_domainset.yaml",
         },
 
         // 软件更新、操作系统等大文件下载
         Download_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Download_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Download_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/Download_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/Download_no_ip.yaml",
         },
 
         // 常见海外服务和互联网公司的域名 有部分域名被DNS污染，故使用代理
         Global_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Global_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Global_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/Global_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/Global_no_ip.yaml",
         },
 
         // 微软需要代理的域名
         Microsoft_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Microsoft_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Microsoft_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/Microsoft_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/Microsoft_no_ip.yaml",
         },
 
         // Steam 需要代理的域名
         Steam_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Steam_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Steam_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/Steam_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/Steam_no_ip.yaml",
         },
 
         // 流媒体域名
         Stream_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Stream_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Stream_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/Stream_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/Stream_no_ip.yaml",
         },
 
         // telegram 域名
         Telegram_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Telegram_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Telegram_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash-Rules/refs/heads/mihomo/PROXY/no_ip/Telegram_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash-Rules/PROXY/no_ip/Telegram_no_ip.yaml",
         },
 
         // ##################################################################################################################
