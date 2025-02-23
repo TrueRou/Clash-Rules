@@ -25,8 +25,6 @@
 >
 > 理论上不需要重复赘述过多的内容，根据文本内的注释自行理解即可
 ```js
-// Define the `main` function
-
 const proxyName = "代理模式";
 
 function main(params) {
@@ -42,37 +40,42 @@ function main(params) {
 }
 
 // 覆写Basic Options
-function overwriteBasicOptions (params) {
+function overwriteBasicOptions(params) {
     const otherOptions = {
         "mixed-port": 7890,
         "allow-lan": true,
         "unified-delay": true,
         "tcp-concurrent": true,
-        "find-process-mode": "strict",
+        "geodata-mode": true,
+        "fakeind-process-mode": "strict",
         "global-client-fingerprint": "chrome",
         profile: {
             "store-selected": true,
             "store-fake-ip": true,
         },
-        ipv6: false,
+        ipv6: true,
         mode: "rule",
         udp: true,
+        "skip-auth-prefixes": ["127.0.0.1/32"],
+        "lan-allowed-ips": ["0.0.0.0/0", "::/0"],
     };
-    Object.keys (otherOptions).forEach ((key) => {
-        params [key] = otherOptions [key];
+    Object.keys(otherOptions).forEach((key) => {
+        params[key] = otherOptions[key];
     });
 }
 
 // 覆写hosts
 function overwriteHosts(params) {
     const hosts = {
-        "dns.alidns.com": [
-            "223.5.5.5",
-            "223.6.6.6",
-            "2400:3200:baba::1",
-            "2400:3200::1",
-        ],
-        "doh.pub": ["120.53.53.53", "1.12.12.12"],
+        "time.facebook.com": "17.253.84.125",
+        "time.android.com": "17.253.84.125",
+        "'*.mihomo.dev'": "127.0.0.1",
+        "'.dev'": "127.0.0.1",
+        "'alpha.mihomo.dev'": "::1",
+
+        "test.com": ["1.1.1.1", "2.2.2.2"],
+
+        "home.lan": "lan",
     };
     params.hosts = hosts;
 }
@@ -86,7 +89,7 @@ function overwriteSniffer(params) {
 
         sniff: {
             HTTP: {
-                ports: ["80", "8080-8880"],
+                ports: ["80", "8080-8880", "443"],
                 "override-destination": false,
             },
 
@@ -342,9 +345,7 @@ function overwriteProxyGroups(params) {
             proxies: [
                 ...countryRegions
                     .filter((region) => availableCountryCodes.has(region.name))
-                    .flatMap((region) => [
-                        `${region.name} - 手动选择`,
-                    ]),
+                    .flatMap((region) => [`${region.name} - 手动选择`]),
             ],
         },
         {
@@ -599,7 +600,9 @@ function overwriteRules(params) {
          * 这部分域名一般会被解析到局域网 IP、需要走内网 DNS 解析、需要直连访问
          */
         "RULE-SET,Lan_ip,DIRECT",
-
+        // 使用 GEOIP 和 GEOSITE 兜底直连规则
+        "GEOIP,CN,DIRECT",
+        "GEOSITE,cn,DIRECT",
         // 兜底
         "MATCH,漏网之鱼",
     ];
@@ -933,12 +936,14 @@ function getProxiesByRegex(params, regex) {
 function overwriteDns(params) {
     const dnsOptions = {
         enable: true,
+        "cache-algorithm": "arc",
         "enhanced-mode": "fake-ip", // fake-ip 或 redir-host
         "fake-ip-range": "198.18.0.1/16",
         "prefer-h3": true, // 如果 DNS 服务器支持 DoH3 会优先使用 h3
         "use-hosts": false,
         "use-system-hosts": false,
-        ipv6: false,
+        ipv6: true,
+        "ipv6-timeout": 300,
 
         "fake-ip-filter": [
             "+.+m2m",
@@ -1130,8 +1135,10 @@ function overwriteDns(params) {
 
         // 默认的域名解析服务器
         nameserver: [
-            "https://223.5.5.5/dns-query", // 阿里云
-            "https://120.53.53.53/dns-query", // DNSPod
+            "tls://223.5.5.5",
+            "tls://119.29.29.29",
+            "https://dns.alidns.com/dns-query",
+            "https://doh.pub/dns-query",
         ],
 
         // 代理节点域名解析服务器，仅用于解析代理节点的域名，如果不填则遵循nameserver-policy、nameserver和fallback的配置
@@ -1139,6 +1146,28 @@ function overwriteDns(params) {
             "https://223.5.5.5/dns-query", // 阿里云
             "https://120.53.53.53/dns-query", // DNSPod
         ],
+
+        fallback: [
+            "8.8.8.8",
+            "8.8.4.4",
+            "tls://1.1.1.1",
+            "tls://8.8.8.8",
+            "https://cloudflare-dns.com/dns-query",
+            "https://dns.google/dns-query",
+        ],
+
+        "nameserver-policy": {
+            " geosite:cn": [
+                "https://dns.pub/dns-query",
+                "https://dns.alidns.com/dns-query",
+            ],
+        },
+
+        "fallback-filter": {
+            geoip: true,
+            "geoip-code": "CN",
+            ipcidr: ["240.0.0.0/4"],
+        },
 
         // 指定域名查询的解析服务器，可使用 geosite, 优先于 nameserver/fallback 查询
         "nameserver-policy": {
@@ -1218,86 +1247,86 @@ function overwriteDns(params) {
             "+.hellobike.com": "quic://dns.alidns.com:853",
             "*.hichina.com": "quic://dns.alidns.com:853",
             "*.yunos.com": "quic://dns.alidns.com:853",
-            "*.qcloud.com": "https://doh.pub/dns-query",
-            "*.gtimg.cn": "https://doh.pub/dns-query",
-            "*.gtimg.com": "https://doh.pub/dns-query",
-            "*.gtimg.com.cn": "https://doh.pub/dns-query",
-            "*.gdtimg.com": "https://doh.pub/dns-query",
-            "*.idqqimg.com": "https://doh.pub/dns-query",
-            "*.udqqimg.com": "https://doh.pub/dns-query",
-            "*.igamecj.com": "https://doh.pub/dns-query",
-            "+.myapp.com": "https://doh.pub/dns-query",
-            "*.myqcloud.com": "https://doh.pub/dns-query",
-            "+.dnspod.com": "https://doh.pub/dns-query",
-            "*.qpic.cn": "https://doh.pub/dns-query",
-            "*.qlogo.cn": "https://doh.pub/dns-query",
-            "+.qq.com": "https://doh.pub/dns-query",
-            "+.qq.com.cn": "https://doh.pub/dns-query",
-            "*.qqmail.com": "https://doh.pub/dns-query",
-            "+.qzone.com": "https://doh.pub/dns-query",
-            "*.tencent-cloud.net": "https://doh.pub/dns-query",
-            "*.tencent-cloud.com": "https://doh.pub/dns-query",
-            "+.tencent.com": "https://doh.pub/dns-query",
-            "+.tencent.com.cn": "https://doh.pub/dns-query",
-            "+.tencentmusic.com": "https://doh.pub/dns-query",
-            "+.weixinbridge.com": "https://doh.pub/dns-query",
-            "+.weixin.com": "https://doh.pub/dns-query",
-            "+.weiyun.com": "https://doh.pub/dns-query",
-            "+.soso.com": "https://doh.pub/dns-query",
-            "+.sogo.com": "https://doh.pub/dns-query",
-            "+.sogou.com": "https://doh.pub/dns-query",
-            "*.sogoucdn.com": "https://doh.pub/dns-query",
-            "*.roblox.cn": "https://doh.pub/dns-query",
-            "+.robloxdev.cn": "https://doh.pub/dns-query",
-            "+.wegame.com": "https://doh.pub/dns-query",
-            "+.wegame.com.cn": "https://doh.pub/dns-query",
-            "+.wegameplus.com": "https://doh.pub/dns-query",
-            "+.cdn-go.cn": "https://doh.pub/dns-query",
-            "*.tencentcs.cn": "https://doh.pub/dns-query",
-            "*.qcloudimg.com": "https://doh.pub/dns-query",
-            "+.dnspod.cn": "https://doh.pub/dns-query",
-            "+.anticheatexpert.com": "https://doh.pub/dns-query",
-            "url.cn": "https://doh.pub/dns-query",
-            "*.qlivecdn.com": "https://doh.pub/dns-query",
-            "*.tcdnlive.com": "https://doh.pub/dns-query",
-            "*.dnsv1.com": "https://doh.pub/dns-query",
+            "*.qcloud.com": "quic://dns.alidns.com:853",
+            "*.gtimg.cn": "quic://dns.alidns.com:853",
+            "*.gtimg.com": "quic://dns.alidns.com:853",
+            "*.gtimg.com.cn": "quic://dns.alidns.com:853",
+            "*.gdtimg.com": "quic://dns.alidns.com:853",
+            "*.idqqimg.com": "quic://dns.alidns.com:853",
+            "*.udqqimg.com": "quic://dns.alidns.com:853",
+            "*.igamecj.com": "quic://dns.alidns.com:853",
+            "+.myapp.com": "quic://dns.alidns.com:853",
+            "*.myqcloud.com": "quic://dns.alidns.com:853",
+            "+.dnspod.com": "quic://dns.alidns.com:853",
+            "*.qpic.cn": "quic://dns.alidns.com:853",
+            "*.qlogo.cn": "quic://dns.alidns.com:853",
+            "+.qq.com": "quic://dns.alidns.com:853",
+            "+.qq.com.cn": "quic://dns.alidns.com:853",
+            "*.qqmail.com": "quic://dns.alidns.com:853",
+            "+.qzone.com": "quic://dns.alidns.com:853",
+            "*.tencent-cloud.net": "quic://dns.alidns.com:853",
+            "*.tencent-cloud.com": "quic://dns.alidns.com:853",
+            "+.tencent.com": "quic://dns.alidns.com:853",
+            "+.tencent.com.cn": "quic://dns.alidns.com:853",
+            "+.tencentmusic.com": "quic://dns.alidns.com:853",
+            "+.weixinbridge.com": "quic://dns.alidns.com:853",
+            "+.weixin.com": "quic://dns.alidns.com:853",
+            "+.weiyun.com": "quic://dns.alidns.com:853",
+            "+.soso.com": "quic://dns.alidns.com:853",
+            "+.sogo.com": "quic://dns.alidns.com:853",
+            "+.sogou.com": "quic://dns.alidns.com:853",
+            "*.sogoucdn.com": "quic://dns.alidns.com:853",
+            "*.roblox.cn": "quic://dns.alidns.com:853",
+            "+.robloxdev.cn": "quic://dns.alidns.com:853",
+            "+.wegame.com": "quic://dns.alidns.com:853",
+            "+.wegame.com.cn": "quic://dns.alidns.com:853",
+            "+.wegameplus.com": "quic://dns.alidns.com:853",
+            "+.cdn-go.cn": "quic://dns.alidns.com:853",
+            "*.tencentcs.cn": "quic://dns.alidns.com:853",
+            "*.qcloudimg.com": "quic://dns.alidns.com:853",
+            "+.dnspod.cn": "quic://dns.alidns.com:853",
+            "+.anticheatexpert.com": "quic://dns.alidns.com:853",
+            "url.cn": "quic://dns.alidns.com:853",
+            "*.qlivecdn.com": "quic://dns.alidns.com:853",
+            "*.tcdnlive.com": "quic://dns.alidns.com:853",
+            "*.dnsv1.com": "quic://dns.alidns.com:853",
             "upos-sz-mirrorali.bilivideo.com": "quic://dns.alidns.com:853",
             "upos-sz-estgoss.bilivideo.com": "quic://dns.alidns.com:853",
             "upos-sz-mirrorbd.bilivideo.com": "180.76.76.76",
             "upos-sz-mirrorbos.bilivideo.com": "180.76.76.76",
-            "upos-sz-mirrorcosbstar1.bilivideo.com": "https://doh.pub/dns-query",
-            "acg.tv": "https://doh.pub/dns-query",
-            "b23.tv": "https://doh.pub/dns-query",
-            "+.bilibili.cn": "https://doh.pub/dns-query",
-            "+.bilibili.com": "https://doh.pub/dns-query",
-            "*.acgvideo.com": "https://doh.pub/dns-query",
-            "*.bilivideo.com": "https://doh.pub/dns-query",
-            "*.bilivideo.cn": "https://doh.pub/dns-query",
-            "*.bilivideo.net": "https://doh.pub/dns-query",
-            "*.hdslb.com": "https://doh.pub/dns-query",
-            "*.biliimg.com": "https://doh.pub/dns-query",
-            "*.biliapi.com": "https://doh.pub/dns-query",
-            "*.biliapi.net": "https://doh.pub/dns-query",
-            "+.biligame.com": "https://doh.pub/dns-query",
-            "*.biligame.net": "https://doh.pub/dns-query",
-            "+.bilicomic.com": "https://doh.pub/dns-query",
-            "+.bilicomics.com": "https://doh.pub/dns-query",
-            "*.bilicdn1.com": "https://doh.pub/dns-query",
-            "+.mi.com": "https://doh.pub/dns-query",
-            "+.duokan.com": "https://doh.pub/dns-query",
-            "*.mi-img.com": "https://doh.pub/dns-query",
-            "*.mi-idc.com": "https://doh.pub/dns-query",
-            "*.xiaoaisound.com": "https://doh.pub/dns-query",
-            "*.xiaomixiaoai.com": "https://doh.pub/dns-query",
-            "*.mi-fds.com": "https://doh.pub/dns-query",
-            "*.mifile.cn": "https://doh.pub/dns-query",
-            "*.mijia.tech": "https://doh.pub/dns-query",
-            "+.miui.com": "https://doh.pub/dns-query",
-            "+.xiaomi.com": "https://doh.pub/dns-query",
-            "+.xiaomi.cn": "https://doh.pub/dns-query",
-            "+.xiaomi.net": "https://doh.pub/dns-query",
-            "+.xiaomiev.com": "https://doh.pub/dns-query",
-            "+.xiaomiyoupin.com": "https://doh.pub/dns-query",
+            "upos-sz-mirrorcosbstar1.bilivideo.com": "quic://dns.alidns.com:853",
+            "acg.tv": "quic://dns.alidns.com:853",
+            "b23.tv": "quic://dns.alidns.com:853",
+            "+.bilibili.cn": "quic://dns.alidns.com:853",
+            "+.bilibili.com": "quic://dns.alidns.com:853",
+            "*.acgvideo.com": "quic://dns.alidns.com:853",
+            "*.bilivideo.com": "quic://dns.alidns.com:853",
+            "*.bilivideo.cn": "quic://dns.alidns.com:853",
+            "*.bilivideo.net": "quic://dns.alidns.com:853",
+            "*.hdslb.com": "quic://dns.alidns.com:853",
+            "*.biliimg.com": "quic://dns.alidns.com:853",
+            "*.biliapi.com": "quic://dns.alidns.com:853",
+            "*.biliapi.net": "quic://dns.alidns.com:853",
+            "+.biligame.com": "quic://dns.alidns.com:853",
+            "*.biligame.net": "quic://dns.alidns.com:853",
+            "+.bilicomic.com": "quic://dns.alidns.com:853",
+            "+.bilicomics.com": "quic://dns.alidns.com:853",
+            "*.bilicdn1.com": "quic://dns.alidns.com:853",
+            "+.mi.com": "quic://dns.alidns.com:853",
+            "+.duokan.com": "quic://dns.alidns.com:853",
+            "*.mi-img.com": "quic://dns.alidns.com:853",
+            "*.mi-idc.com": "quic://dns.alidns.com:853",
+            "*.xiaoaisound.com": "quic://dns.alidns.com:853",
+            "*.xiaomixiaoai.com": "quic://dns.alidns.com:853",
+            "*.mi-fds.com": "quic://dns.alidns.com:853",
+            "*.mifile.cn": "quic://dns.alidns.com:853",
+            "*.mijia.tech": "quic://dns.alidns.com:853",
+            "+.miui.com": "quic://dns.alidns.com:853",
+            "+.xiaomi.com": "quic://dns.alidns.com:853",
+            "+.xiaomi.cn": "quic://dns.alidns.com:853",
+            "+.xiaomi.net": "quic://dns.alidns.com:853",
+            "+.xiaomiev.com": "quic://dns.alidns.com:853",
+            "+.xiaomiyoupin.com": "quic://dns.alidns.com:853",
             "+.bytedance.com.com": "180.184.2.2",
             "*.bytecdn.cn": "180.184.2.2",
             "*.volccdn.com": "180.184.2.2",
@@ -1399,6 +1428,8 @@ function overwriteDns(params) {
             "*._tcp": ["system://", "system", "dhcp://system"],
             "*.bogon": ["system://", "system", "dhcp://system"],
             "*._msdcs": ["system://", "system", "dhcp://system"],
+            // 兜底查询
+            "geosite:cn": "https://dns.pub/dns-query",
         },
     };
 
@@ -1415,7 +1446,7 @@ function getManualProxiesByRegex(params, regex) {
 }
 
 // 覆写Tunnel
-function overwriteTunnel (params) {
+function overwriteTunnel(params) {
     const tunnelOptions = {
         enable: true,
         stack: "system",
@@ -1428,4 +1459,5 @@ function overwriteTunnel (params) {
     };
     params.tun = { ...tunnelOptions };
 }
+
 ```
