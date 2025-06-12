@@ -29,12 +29,11 @@ const proxyName = "代理模式";
 
 function main(params) {
     if (!params.proxies) return params;
+    overwriteBasicOptions(params);
+    overwriteSniffer(params);
     overwriteProxyGroups(params);
     overwriteRules(params);
     overwriteDns(params);
-    overwriteSniffer(params);
-    overwriteHosts(params);
-    overwriteBasicOptions(params);
     overwriteTunnel(params);
     return params;
 }
@@ -55,29 +54,12 @@ function overwriteBasicOptions(params) {
         },
         ipv6: true,
         mode: "rule",
-        udp: true,
         "skip-auth-prefixes": ["127.0.0.1/32"],
         "lan-allowed-ips": ["0.0.0.0/0", "::/0"],
     };
     Object.keys(otherOptions).forEach((key) => {
         params[key] = otherOptions[key];
     });
-}
-
-// 覆写hosts
-function overwriteHosts(params) {
-    const hosts = {
-        "time.facebook.com": "17.253.84.125",
-        "time.android.com": "17.253.84.125",
-        "'*.mihomo.dev'": "127.0.0.1",
-        "'.dev'": "127.0.0.1",
-        "'alpha.mihomo.dev'": "::1",
-
-        "test.com": ["1.1.1.1", "2.2.2.2"],
-
-        "home.lan": "lan",
-    };
-    params.hosts = hosts;
 }
 
 function overwriteSniffer(params) {
@@ -89,24 +71,32 @@ function overwriteSniffer(params) {
 
         sniff: {
             HTTP: {
-                ports: ["80", "8080-8880", "443"],
+                ports: ["80", "443"],
                 "override-destination": false,
             },
 
             TLS: {
-                ports: ["443", "8443"],
-            },
-
-            QUIC: {
-                ports: ["443", "8443"],
+                ports: ["443"],
             },
         },
 
-        // 强制嗅探结果
-        "force-domain": ["google.com", "+.v2ex.com"],
-
         // 跳过嗅探结果
-        "skip-domain": ["Mijia Cloud", "+.apple.com"],
+        "skip-domain": ["+.push.apple.com"],
+
+        "skip-dst-address": [
+            "91.105.192.0/23",
+            "91.108.4.0/22",
+            "91.108.8.0/21",
+            "91.108.16.0/21",
+            "91.108.56.0/22",
+            "95.161.64.0/20",
+            "149.154.160.0/20",
+            "185.76.151.0/24",
+            "2001:67c:4e8::/48",
+            "2001:b28:f23c::/47",
+            "2001:b28:f23f::/48",
+            "2a0a:f280:203::/48",
+        ]
     };
 
     params["sniffer"] = snifferConfig;
@@ -248,7 +238,7 @@ function overwriteProxyGroups(params) {
             regex: /(挪威|NO|Norway|🇳🇴)/i,
         },
         {
-            name: "其它 - 自动选择",
+            name: "其它",
             regex: /(?!.*(?: 剩余 | 到期 | 主页 | 官网 | 游戏 | 关注))(.*)/,
         },
     ];
@@ -341,11 +331,13 @@ function overwriteProxyGroups(params) {
             name: "手动选择",
             type: "select",
             icon: "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/link.svg",
-            "exclude-filter": "自动选择",
             proxies: [
                 ...countryRegions
                     .filter((region) => availableCountryCodes.has(region.name))
-                    .flatMap((region) => [`${region.name} - 手动选择`]),
+                    .flatMap((region) => [
+                        `${region.name} - 自动选择`,
+                        `${region.name} - 手动选择`,
+                    ]),
             ],
         },
         {
@@ -448,9 +440,42 @@ function overwriteProxyGroups(params) {
                         `${region.name} - 自动选择`,
                         `${region.name} - 手动选择`,
                     ]),
+                "DIRECT",
             ],
             // "include-all": true,
             icon: "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/microsoft.svg",
+        },
+        {
+            name: "GoogleFCM",
+            type: "select",
+            proxies: [
+                "DIRECT",
+                proxyName,
+                ...countryRegions
+                    .filter((region) => availableCountryCodes.has(region.name))
+                    .flatMap((region) => [
+                        `${region.name} - 自动选择`,
+                        `${region.name} - 手动选择`,
+                    ]),
+            ],
+            // "include-all": true,
+            icon: "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/google.svg",
+        },
+        {
+            name: "Steam地区",
+            type: "select",
+            proxies: [
+                "DIRECT",
+                proxyName,
+                ...countryRegions
+                    .filter((region) => availableCountryCodes.has(region.name))
+                    .flatMap((region) => [
+                        `${region.name} - 自动选择`,
+                        `${region.name} - 手动选择`,
+                    ]),
+            ],
+            // "include-all": true,
+            icon: "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/steam.svg",
         },
         {
             name: "漏网之鱼",
@@ -487,10 +512,13 @@ function overwriteRules(params) {
         "RULE-SET,CustomProxy_no_ip," + proxyName,
 
         // GoolgeFCM 推送
-        "RULE-SET,GoogleFCM_no_ip,DIRECT",
+        "RULE-SET,GoogleFCM_no_ip,GoogleFCM",
 
         // 网易云音乐
         "RULE-SET,NetEaseMusic_no_ip,DIRECT",
+
+        // Steam 地区
+        "RULE-SET,SteamRegion_no_ip,Steam地区",
 
         // SteamCN
         "RULE-SET,SteamCN_no_ip,DIRECT",
@@ -566,7 +594,7 @@ function overwriteRules(params) {
 
     const ipRules = [
         // GooleFCM 推送
-        "RULE-SET,GoogleFCM_ip,DIRECT",
+        "RULE-SET,GoogleFCM_ip,GoogleFCM",
 
         // 网易云音乐
         "RULE-SET,NetEaseMusic_ip,DIRECT",
@@ -806,6 +834,13 @@ function overwriteRules(params) {
             path: "./ruleset/TrueRou/Clash-Rules/DIRECT/no_ip/SteamCN_no_ip.yaml",
         },
 
+        // Steam 地区域名
+        SteamRegion_no_ip: {
+            ...ruleAnchor.classical,
+            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/SteamRegion_no_ip.yaml",
+            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/SteamRegion_no_ip.yaml",
+        },
+
         // ##################################################################################################################
 
         /**
@@ -936,501 +971,41 @@ function getProxiesByRegex(params, regex) {
 function overwriteDns(params) {
     const dnsOptions = {
         enable: true,
-        "cache-algorithm": "arc",
+        "listen": "0.0.0.0:1053",
         "enhanced-mode": "fake-ip", // fake-ip 或 redir-host
         "fake-ip-range": "198.18.0.1/16",
-        "prefer-h3": true, // 如果 DNS 服务器支持 DoH3 会优先使用 h3
         "use-hosts": false,
         "use-system-hosts": false,
-        ipv6: true,
-        "ipv6-timeout": 300,
+        ipv6: false,
 
         "fake-ip-filter": [
-            "+.+m2m",
-            "+.$injections.adguard.org",
-            "+.$local.adguard.org",
-            "+.+_tcp",
-            "+.+bogon",
-            "+.+_msdcs",
-            "+.10.in-addr.arpa",
-            "+.10.in-addr.arpa",
-            "+.16.172.in-addr.arpa",
-            "+.17.172.in-addr.arpa",
-            "+.18.172.in-addr.arpa",
-            "+.19.172.in-addr.arpa",
-            "+.20.172.in-addr.arpa",
-            "+.21.172.in-addr.arpa",
-            "+.22.172.in-addr.arpa",
-            "+.23.172.in-addr.arpa",
-            "+.24.172.in-addr.arpa",
-            "+.25.172.in-addr.arpa",
-            "+.26.172.in-addr.arpa",
-            "+.27.172.in-addr.arpa",
-            "+.28.172.in-addr.arpa",
-            "+.29.172.in-addr.arpa",
-            "+.30.172.in-addr.arpa",
-            "+.31.172.in-addr.arpa",
-            "+.168.192.in-addr.arpa",
-            "+.254.169.in-addr.arpa",
-            "*.srv.nintendo.net",
-            "*.stun.playstation.net",
-            "*.turn.twilio.com",
-            "*.stun.twilio.com",
-            "stun.syncthing.net",
-            "stun.*",
-
-            // LAN
+            "*",
             "+.lan",
-            "*.localdomain",
-            "*.example",
-            "*.invalid",
-            "*.localhost",
-            "*.test",
-            "*.local",
-            "*.home.arpa",
-
-            // ntp
+            "+.local",
             "time.*.com",
-            "time.*.gov",
-            "time.*.edu.cn",
-            "time.*.apple.com",
-            "time-ios.apple.com",
-            "time1.*.com",
-            "time2.*.com",
-            "time3.*.com",
-            "time4.*.com",
-            "time5.*.com",
-            "time6.*.com",
-            "time7.*.com",
             "ntp.*.com",
-            "ntp1.*.com",
-            "ntp2.*.com",
-            "ntp3.*.com",
-            "ntp4.*.com",
-            "ntp5.*.com",
-            "ntp6.*.com",
-            "ntp7.*.com",
-            "*.time.edu.cn",
-            "*.ntp.org.cn",
-            "+.pool.ntp.org",
-            "time1.cloud.tencent.com",
-
-            // 网易云音乐
-            "music.163.com",
-            "*.music.163.com",
-            "*.126.net",
-
-            // 百度音乐
-            "musicapi.taihe.com",
-            "music.taihe.com",
-
-            // 酷狗音乐
-            "songsearch.kugou.com",
-            "trackercdn.kugou.com",
-
-            // 酷我音乐
-            "*.kuwo.cn",
-
-            // JOOX音乐
-            "api-jooxtt.sanook.com",
-            "api.joox.com",
-            "joox.com",
-
-            // QQ音乐
-            "y.qq.com",
-            "*.y.qq.com",
-            "streamoc.music.tc.qq.com",
-            "mobileoc.music.tc.qq.com",
-            "isure.stream.qqmusic.qq.com",
-            "dl.stream.qqmusic.qq.com",
-            "aqqmusic.tc.qq.com",
-            "amobile.music.tc.qq.com",
-
-            // 虾米音乐
-            "*.xiami.com",
-
-            // 咪咕音乐
-            "*.music.migu.cn",
-            "music.migu.cn",
-
-            // windows 本地连接检测
-            "+.msftconnecttest.com",
-            "+.msftncsi.com",
-
-            // QQ登录
+            "+.market.xiaomi.com",
             "localhost.ptlogin2.qq.com",
             "localhost.sec.qq.com",
             "+.qq.com",
             "+.tencent.com",
-
-            // Steam
-            "+.steamcontent.com",
-
-            // Nintendo Switch
-            "+.srv.nintendo.net",
-            "*.n.n.srv.nintendo.net",
-            "+.cdn.nintendo.net",
-
-            // Sony PlayStation
-            "+.stun.playstation.net",
-
-            // Microsoft Xbox
-            "xbox.*.*.microsoft.com",
-            "*.*.xboxlive.com",
-            "xbox.*.microsoft.com",
-            "xnotify.xboxlive.com",
-
-            // battlenet
-            "+.battlenet.com.cn",
-
-            // STUN
-            "stun.*.*",
-            "stun.*.*.*",
-            "+.stun.*.*",
-            "+.stun.*.*.*",
-            "+.stun.*.*.*.*",
-            "+.stun.*.*.*.*.*",
-
-            // Netflix
-            "+.nflxvideo.net",
-
-            // Bilibili
-            "*.mcdn.bilivideo.cn",
-
-            // 米家
-            "Mijia Cloud",
-
-            // Xiaomi
-            "+.market.xiaomi.com",
-
-            // 招商银行
-            "+.cmbchina.com",
-            "+.cmbimg.com",
-
-            // ADGuard
-            "adguardteam.github.io",
-            "adrules.top",
-            "anti-ad.net",
-            "local.adguard.org",
-            "static.adtidy.org",
-
-            // 迅雷
-            "+.sandai.net",
-            "+.n0808.com",
-
-            // UU
-            "+.uu.163.com",
-            "ps.res.netease.com",
-
-            // 向日葵远程控制
-            "+.oray.com",
-            "+.orayimg.com",
-
-            "+.wggames.cn",
-
-            //
-
-            "WORKGROUP",
+            "+.msftconnecttest.com",
+            "+.msftncsi.com",
         ],
 
-        // 默认的域名解析服务器
-        nameserver: [
+        "default-nameserver": [
             "tls://223.5.5.5",
-            "tls://119.29.29.29",
+        ],
+
+        nameserver: [
             "https://dns.alidns.com/dns-query",
             "https://doh.pub/dns-query",
         ],
 
-        // 代理节点域名解析服务器，仅用于解析代理节点的域名，如果不填则遵循nameserver-policy、nameserver和fallback的配置
         "proxy-server-nameserver": [
-            "https://223.5.5.5/dns-query", // 阿里云
-            "https://120.53.53.53/dns-query", // DNSPod
+            "https://doh.pub/dns-query",
+            "https://dns.alidns.com/dns-query",
         ],
-
-        fallback: [
-            "8.8.8.8",
-            "8.8.4.4",
-            "tls://1.1.1.1",
-            "tls://8.8.8.8",
-            "https://cloudflare-dns.com/dns-query",
-            "https://dns.google/dns-query",
-        ],
-
-        "nameserver-policy": {
-            " geosite:cn": [
-                "https://dns.pub/dns-query",
-                "https://dns.alidns.com/dns-query",
-            ],
-        },
-
-        "fallback-filter": {
-            geoip: true,
-            "geoip-code": "CN",
-            ipcidr: ["240.0.0.0/4"],
-        },
-
-        // 指定域名查询的解析服务器，可使用 geosite, 优先于 nameserver/fallback 查询
-        "nameserver-policy": {
-            "dns.alidns.com": "quic://223.5.5.5:853",
-            "doh.pub": "https://1.12.12.12/dns-query",
-            "doh.360.cn": "101.198.198.198",
-            "+.uc.cn": "quic://dns.alidns.com:853",
-            "+.alibaba.com": "quic://dns.alidns.com:853",
-            "*.alicdn.com": "quic://dns.alidns.com:853",
-            "*.ialicdn.com": "quic://dns.alidns.com:853",
-            "*.myalicdn.com": "quic://dns.alidns.com:853",
-            "*.alidns.com": "quic://dns.alidns.com:853",
-            "*.aliimg.com": "quic://dns.alidns.com:853",
-            "+.aliyun.com": "quic://dns.alidns.com:853",
-            "*.aliyuncs.com": "quic://dns.alidns.com:853",
-            "*.alikunlun.com": "quic://dns.alidns.com:853",
-            "*.alikunlun.net": "quic://dns.alidns.com:853",
-            "*.cdngslb.com": "quic://dns.alidns.com:853",
-            "+.alipay.com": "quic://dns.alidns.com:853",
-            "+.alipay.cn": "quic://dns.alidns.com:853",
-            "+.alipay.com.cn": "quic://dns.alidns.com:853",
-            "*.alipayobjects.com": "quic://dns.alidns.com:853",
-            "+.alibaba-inc.com": "quic://dns.alidns.com:853",
-            "*.alibabausercontent.com": "quic://dns.alidns.com:853",
-            "*.alibabadns.com": "quic://dns.alidns.com:853",
-            "+.alicloudccp.com": "quic://dns.alidns.com:853",
-            "+.alipan.com": "quic://dns.alidns.com:853",
-            "+.aliyundrive.com": "quic://dns.alidns.com:853",
-            "+.aliyundrive.net": "quic://dns.alidns.com:853",
-            "+.cainiao.com": "quic://dns.alidns.com:853",
-            "+.cainiao.com.cn": "quic://dns.alidns.com:853",
-            "+.cainiaoyizhan.com": "quic://dns.alidns.com:853",
-            "+.guoguo-app.com": "quic://dns.alidns.com:853",
-            "+.etao.com": "quic://dns.alidns.com:853",
-            "+.yitao.com": "quic://dns.alidns.com:853",
-            "+.1688.com": "quic://dns.alidns.com:853",
-            "+.amap.com": "quic://dns.alidns.com:853",
-            "+.gaode.com": "quic://dns.alidns.com:853",
-            "+.autonavi.com": "quic://dns.alidns.com:853",
-            "+.dingtalk.com": "quic://dns.alidns.com:853",
-            "+.mxhichina.com": "quic://dns.alidns.com:853",
-            "+.soku.com": "quic://dns.alidns.com:853",
-            "+.tb.cn": "quic://dns.alidns.com:853",
-            "+.taobao.com": "quic://dns.alidns.com:853",
-            "*.taobaocdn.com": "quic://dns.alidns.com:853",
-            "*.tbcache.com": "quic://dns.alidns.com:853",
-            "+.tmall.com": "quic://dns.alidns.com:853",
-            "+.xiami.com": "quic://dns.alidns.com:853",
-            "+.xiami.net": "quic://dns.alidns.com:853",
-            "*.ykimg.com": "quic://dns.alidns.com:853",
-            "+.youku.com": "quic://dns.alidns.com:853",
-            "+.tudou.com": "quic://dns.alidns.com:853",
-            "*.cibntv.net": "quic://dns.alidns.com:853",
-            "+.ele.me": "quic://dns.alidns.com:853",
-            "*.elemecdn.com": "quic://dns.alidns.com:853",
-            "+.feizhu.com": "quic://dns.alidns.com:853",
-            "+.taopiaopiao.com": "quic://dns.alidns.com:853",
-            "+.fliggy.com": "quic://dns.alidns.com:853",
-            "+.koubei.com": "quic://dns.alidns.com:853",
-            "+.mybank.cn": "quic://dns.alidns.com:853",
-            "+.mmstat.com": "quic://dns.alidns.com:853",
-            "+.uczzd.cn": "quic://dns.alidns.com:853",
-            "+.iconfont.cn": "quic://dns.alidns.com:853",
-            "+.freshhema.com": "quic://dns.alidns.com:853",
-            "+.hemamax.com": "quic://dns.alidns.com:853",
-            "+.hemaos.com": "quic://dns.alidns.com:853",
-            "+.hemashare.cn": "quic://dns.alidns.com:853",
-            "+.shyhhema.com": "quic://dns.alidns.com:853",
-            "+.sm.cn": "quic://dns.alidns.com:853",
-            "+.npmmirror.com": "quic://dns.alidns.com:853",
-            "+.alios.cn": "quic://dns.alidns.com:853",
-            "+.wandoujia.com": "quic://dns.alidns.com:853",
-            "+.aligames.com": "quic://dns.alidns.com:853",
-            "+.25pp.com": "quic://dns.alidns.com:853",
-            "*.aliapp.org": "quic://dns.alidns.com:853",
-            "+.tanx.com": "quic://dns.alidns.com:853",
-            "+.hellobike.com": "quic://dns.alidns.com:853",
-            "*.hichina.com": "quic://dns.alidns.com:853",
-            "*.yunos.com": "quic://dns.alidns.com:853",
-            "*.qcloud.com": "quic://dns.alidns.com:853",
-            "*.gtimg.cn": "quic://dns.alidns.com:853",
-            "*.gtimg.com": "quic://dns.alidns.com:853",
-            "*.gtimg.com.cn": "quic://dns.alidns.com:853",
-            "*.gdtimg.com": "quic://dns.alidns.com:853",
-            "*.idqqimg.com": "quic://dns.alidns.com:853",
-            "*.udqqimg.com": "quic://dns.alidns.com:853",
-            "*.igamecj.com": "quic://dns.alidns.com:853",
-            "+.myapp.com": "quic://dns.alidns.com:853",
-            "*.myqcloud.com": "quic://dns.alidns.com:853",
-            "+.dnspod.com": "quic://dns.alidns.com:853",
-            "*.qpic.cn": "quic://dns.alidns.com:853",
-            "*.qlogo.cn": "quic://dns.alidns.com:853",
-            "+.qq.com": "quic://dns.alidns.com:853",
-            "+.qq.com.cn": "quic://dns.alidns.com:853",
-            "*.qqmail.com": "quic://dns.alidns.com:853",
-            "+.qzone.com": "quic://dns.alidns.com:853",
-            "*.tencent-cloud.net": "quic://dns.alidns.com:853",
-            "*.tencent-cloud.com": "quic://dns.alidns.com:853",
-            "+.tencent.com": "quic://dns.alidns.com:853",
-            "+.tencent.com.cn": "quic://dns.alidns.com:853",
-            "+.tencentmusic.com": "quic://dns.alidns.com:853",
-            "+.weixinbridge.com": "quic://dns.alidns.com:853",
-            "+.weixin.com": "quic://dns.alidns.com:853",
-            "+.weiyun.com": "quic://dns.alidns.com:853",
-            "+.soso.com": "quic://dns.alidns.com:853",
-            "+.sogo.com": "quic://dns.alidns.com:853",
-            "+.sogou.com": "quic://dns.alidns.com:853",
-            "*.sogoucdn.com": "quic://dns.alidns.com:853",
-            "*.roblox.cn": "quic://dns.alidns.com:853",
-            "+.robloxdev.cn": "quic://dns.alidns.com:853",
-            "+.wegame.com": "quic://dns.alidns.com:853",
-            "+.wegame.com.cn": "quic://dns.alidns.com:853",
-            "+.wegameplus.com": "quic://dns.alidns.com:853",
-            "+.cdn-go.cn": "quic://dns.alidns.com:853",
-            "*.tencentcs.cn": "quic://dns.alidns.com:853",
-            "*.qcloudimg.com": "quic://dns.alidns.com:853",
-            "+.dnspod.cn": "quic://dns.alidns.com:853",
-            "+.anticheatexpert.com": "quic://dns.alidns.com:853",
-            "url.cn": "quic://dns.alidns.com:853",
-            "*.qlivecdn.com": "quic://dns.alidns.com:853",
-            "*.tcdnlive.com": "quic://dns.alidns.com:853",
-            "*.dnsv1.com": "quic://dns.alidns.com:853",
-            "upos-sz-mirrorali.bilivideo.com": "quic://dns.alidns.com:853",
-            "upos-sz-estgoss.bilivideo.com": "quic://dns.alidns.com:853",
-            "upos-sz-mirrorbd.bilivideo.com": "180.76.76.76",
-            "upos-sz-mirrorbos.bilivideo.com": "180.76.76.76",
-            "upos-sz-mirrorcosbstar1.bilivideo.com": "quic://dns.alidns.com:853",
-            "acg.tv": "quic://dns.alidns.com:853",
-            "b23.tv": "quic://dns.alidns.com:853",
-            "+.bilibili.cn": "quic://dns.alidns.com:853",
-            "+.bilibili.com": "quic://dns.alidns.com:853",
-            "*.acgvideo.com": "quic://dns.alidns.com:853",
-            "*.bilivideo.com": "quic://dns.alidns.com:853",
-            "*.bilivideo.cn": "quic://dns.alidns.com:853",
-            "*.bilivideo.net": "quic://dns.alidns.com:853",
-            "*.hdslb.com": "quic://dns.alidns.com:853",
-            "*.biliimg.com": "quic://dns.alidns.com:853",
-            "*.biliapi.com": "quic://dns.alidns.com:853",
-            "*.biliapi.net": "quic://dns.alidns.com:853",
-            "+.biligame.com": "quic://dns.alidns.com:853",
-            "*.biligame.net": "quic://dns.alidns.com:853",
-            "+.bilicomic.com": "quic://dns.alidns.com:853",
-            "+.bilicomics.com": "quic://dns.alidns.com:853",
-            "*.bilicdn1.com": "quic://dns.alidns.com:853",
-            "+.mi.com": "quic://dns.alidns.com:853",
-            "+.duokan.com": "quic://dns.alidns.com:853",
-            "*.mi-img.com": "quic://dns.alidns.com:853",
-            "*.mi-idc.com": "quic://dns.alidns.com:853",
-            "*.xiaoaisound.com": "quic://dns.alidns.com:853",
-            "*.xiaomixiaoai.com": "quic://dns.alidns.com:853",
-            "*.mi-fds.com": "quic://dns.alidns.com:853",
-            "*.mifile.cn": "quic://dns.alidns.com:853",
-            "*.mijia.tech": "quic://dns.alidns.com:853",
-            "+.miui.com": "quic://dns.alidns.com:853",
-            "+.xiaomi.com": "quic://dns.alidns.com:853",
-            "+.xiaomi.cn": "quic://dns.alidns.com:853",
-            "+.xiaomi.net": "quic://dns.alidns.com:853",
-            "+.xiaomiev.com": "quic://dns.alidns.com:853",
-            "+.xiaomiyoupin.com": "quic://dns.alidns.com:853",
-            "+.bytedance.com.com": "180.184.2.2",
-            "*.bytecdn.cn": "180.184.2.2",
-            "*.volccdn.com": "180.184.2.2",
-            "*.toutiaoimg.com": "180.184.2.2",
-            "*.toutiaoimg.cn": "180.184.2.2",
-            "*.toutiaostatic.com": "180.184.2.2",
-            "*.toutiaovod.com": "180.184.2.2",
-            "*.toutiaocloud.com": "180.184.2.2",
-            "+.toutiaopage.com": "180.184.2.2",
-            "+.feiliao.com": "180.184.2.2",
-            "+.iesdouyin.com": "180.184.2.2",
-            "*.pstatp.com": "180.184.2.2",
-            "+.snssdk.com": "180.184.2.2",
-            "*.bytegoofy.com": "180.184.2.2",
-            "+.toutiao.com": "180.184.2.2",
-            "+.feishu.cn": "180.184.2.2",
-            "+.feishu.net": "180.184.2.2",
-            "*.feishucdn.com": "180.184.2.2",
-            "*.feishupkg.com": "180.184.2.2",
-            "+.douyin.com": "180.184.2.2",
-            "*.douyinpic.com": "180.184.2.2",
-            "*.douyinstatic.com": "180.184.2.2",
-            "*.douyincdn.com": "180.184.2.2",
-            "*.douyinliving.com": "180.184.2.2",
-            "*.douyinvod.com": "180.184.2.2",
-            "+.huoshan.com": "180.184.2.2",
-            "*.huoshanstatic.com": "180.184.2.2",
-            "+.huoshanzhibo.com": "180.184.2.2",
-            "+.ixigua.com": "180.184.2.2",
-            "*.ixiguavideo.com": "180.184.2.2",
-            "*.ixgvideo.com": "180.184.2.2",
-            "*.byted-static.com": "180.184.2.2",
-            "+.volces.com": "180.184.2.2",
-            "+.baike.com": "180.184.2.2",
-            "*.zjcdn.com": "180.184.2.2",
-            "*.zijieapi.com": "180.184.2.2",
-            "+.feelgood.cn": "180.184.2.2",
-            "*.bytetcc.com": "180.184.2.2",
-            "*.bytednsdoc.com": "180.184.2.2",
-            "*.byteimg.com": "180.184.2.2",
-            "*.byteacctimg.com": "180.184.2.2",
-            "*.ibytedapm.com": "180.184.2.2",
-            "+.oceanengine.com": "180.184.2.2",
-            "+.91.com": "180.76.76.76",
-            "+.hao123.com": "180.76.76.76",
-            "+.baidu.cn": "180.76.76.76",
-            "+.baidu.com": "180.76.76.76",
-            "+.iqiyi.com": "180.76.76.76",
-            "*.iqiyipic.com": "180.76.76.76",
-            "*.baidubce.com": "180.76.76.76",
-            "*.bcelive.com": "180.76.76.76",
-            "*.baiducontent.com": "180.76.76.76",
-            "*.baidustatic.com": "180.76.76.76",
-            "*.bdstatic.com": "180.76.76.76",
-            "*.bdimg.com": "180.76.76.76",
-            "*.bcebos.com": "180.76.76.76",
-            "*.baidupcs.com": "180.76.76.76",
-            "*.baidubcr.com": "180.76.76.76",
-            "*.yunjiasu-cdn.net": "180.76.76.76",
-            "+.tieba.com": "180.76.76.76",
-            "+.xiaodutv.com": "180.76.76.76",
-            "*.shifen.com": "180.76.76.76",
-            "*.jomodns.com": "180.76.76.76",
-            "*.bdydns.com": "180.76.76.76",
-            "*.jomoxc.com": "180.76.76.76",
-            "*.duapp.com": "180.76.76.76",
-            "*.antpcdn.com": "180.76.76.76",
-            "*.qhimg.com": "https://doh.360.cn/dns-query",
-            "*.qhimgs.com": "https://doh.360.cn/dns-query",
-            "*.qhimgs?.com": "https://doh.360.cn/dns-query",
-            "*.qhres.com": "https://doh.360.cn/dns-query",
-            "*.qhres2.com": "https://doh.360.cn/dns-query",
-            "*.qhmsg.com": "https://doh.360.cn/dns-query",
-            "*.qhstatic.com": "https://doh.360.cn/dns-query",
-            "*.qhupdate.com": "https://doh.360.cn/dns-query",
-            "*.qihucdn.com": "https://doh.360.cn/dns-query",
-            "+.360.com": "https://doh.360.cn/dns-query",
-            "+.360.cn": "https://doh.360.cn/dns-query",
-            "+.360.net": "https://doh.360.cn/dns-query",
-            "+.360safe.com": "https://doh.360.cn/dns-query",
-            "*.360tpcdn.com": "https://doh.360.cn/dns-query",
-            "+.360os.com": "https://doh.360.cn/dns-query",
-            "*.360webcache.com": "https://doh.360.cn/dns-query",
-            "+.360kuai.com": "https://doh.360.cn/dns-query",
-            "+.so.com": "https://doh.360.cn/dns-query",
-            "+.haosou.com": "https://doh.360.cn/dns-query",
-            "+.yunpan.cn": "https://doh.360.cn/dns-query",
-            "+.yunpan.com": "https://doh.360.cn/dns-query",
-            "+.yunpan.com.cn": "https://doh.360.cn/dns-query",
-            "*.qh-cdn.com": "https://doh.360.cn/dns-query",
-            "+.baomitu.com": "https://doh.360.cn/dns-query",
-            "+.qiku.com": "https://doh.360.cn/dns-query",
-            "+.securelogin.com.cn": ["system://", "system", "dhcp://system"],
-            "captive.apple.com": ["system://", "system", "dhcp://system"],
-            "hotspot.cslwifi.com": ["system://", "system", "dhcp://system"],
-            "*.m2m": ["system://", "system", "dhcp://system"],
-            "injections.adguard.org": ["system://", "system", "dhcp://system"],
-            "local.adguard.org": ["system://", "system", "dhcp://system"],
-            "*._tcp": ["system://", "system", "dhcp://system"],
-            "*.bogon": ["system://", "system", "dhcp://system"],
-            "*._msdcs": ["system://", "system", "dhcp://system"],
-            // 兜底查询
-            "geosite:cn": "https://dns.pub/dns-query",
-        },
     };
 
     params["dns"] = dnsOptions;
@@ -1449,15 +1024,1411 @@ function getManualProxiesByRegex(params, regex) {
 function overwriteTunnel(params) {
     const tunnelOptions = {
         enable: true,
-        stack: "system",
+        stack: "mixed",
         device: "Mihomo",
-        "dns-hijack": ["any:53", "tcp://any:53"],
+        "dns-hijack": ["any:53"],
         "auto-route": true,
+        "auto-redirect": false,
         "auto-detect-interface": true,
-        "strict-route": true,
-        "route-exclude-address": ["10.100.10.1/24"],
+        "strict-route": false,
+        "route-exclude-address": [],
+        mtu: 1500,
     };
     params.tun = { ...tunnelOptions };
 }
 
+```
+
+## config.yaml
+
+> [!TIP]
+> 如果你不知道这个配置文件如何使用，还是建议使用上面的覆写方案
+```yaml
+#------------------------------------------------------------------------------
+proxies:
+proxy-providers:
+# 在下方的url填入订阅链接即可
+  myclash:
+    type: http
+    url: "xxx"
+    path: ./MyClashProvider.yaml
+    interval: 21600
+    exclude-filter: 自动|故障|流量|官网|套餐|机场|订阅|年|月|失联|频道|Traffic|Expire
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 900
+      timeout: 3000
+      lazy: true
+      expected-status: 204
+#------------------------------------------------------------------------------
+
+# 注意！！！！ 如果无特殊需求，只需要填入订阅链接即可
+
+#开始编辑配置时，心中牢记缩进和冒号引号，任何不懂，查看官方wiki：https://wiki.metacubex.one
+#修改配置后如果内核不能启动，请查看日志，日志中会告诉你配置第几行写错
+mixed-port: 7890
+mode: rule
+allow-lan: true
+unified-delay: true
+tcp-concurrent: true
+find-process-mode: strict
+log-level: info
+ipv6: true
+#关掉后可能在部分手机上出现dns泄露，volte不可用等问题，目前IPv6可以正常使用，不建议关闭
+external-controller: 0.0.0.0:9090
+external-ui: WebUI
+external-ui-url: "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+
+
+geodata-mode: true
+geox-url:
+  geoip: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
+  geosite: "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
+  mmdb: "https://raw.githubusercontent.com/Loyalsoldier/geoip/release/Country.mmdb"
+  asn: "https://github.com/xishang0128/geoip/releases/download/latest/GeoLite2-ASN.mmdb"
+geo-auto-update: true
+geo-update-interval: 48
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+#嗅探器关掉本机可能出现上网异常，连接本机热点的设备可能无法上网
+sniffer:
+  enable: true
+  parse-pure-ip: true
+  force-dns-mapping: true
+  override-destination: false
+  sniff:
+    HTTP:
+      ports:
+        - 80
+        - 443
+      override-destination: false
+    TLS:
+      ports:
+        - 443
+  skip-domain:
+    - +.push.apple.com
+  skip-dst-address:
+    - 91.105.192.0/23
+    - 91.108.4.0/22
+    - 91.108.8.0/21
+    - 91.108.16.0/21
+    - 91.108.56.0/22
+    - 95.161.64.0/20
+    - 149.154.160.0/20
+    - 185.76.151.0/24
+    - 2001:67c:4e8::/48
+    - 2001:b28:f23c::/47
+    - 2001:b28:f23f::/48
+    - 2a0a:f280:203::/48
+
+#tun必须开启，否则将无法代理流量，如网页打开慢，电报卡连接中，
+#可以尝试更换堆栈，同一堆栈在不同设备上体验不同，自行尝试。
+#更换为非gvisor堆栈可能导致IPv6出现问题
+tun:
+  enable: true
+  device: Meta
+  stack: gvisor
+  auto-route: true
+  auto-redirect: false
+  auto-detect-interface: true
+  dns-hijack:
+    - any:53
+  route-exclude-address: []
+  mtu: 1500
+#exclude-package内填写的包名，网络流量不经过tun，相当于黑名单
+#默认添加MIUI镜像服务以及三星电话服务，避免系统功能不可用
+#如果想仅代理指定应用，请将exclude-package改为include-package
+#然后填上想要走代理的包名，不要忘了英文冒号和缩进。
+#目前分流规则已足够完善，白名单可能存在问题，不建议使用
+
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  ipv6-timeout: 300
+  respect-rules: false
+  enhanced-mode: fake-ip
+  use-hosts: false
+  use-system-hosts: false
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*"
+    - +.lan
+    - +.local
+    - time.*.com
+    - ntp.*.com
+    - +.market.xiaomi.com
+    - localhost.ptlogin2.qq.com
+    - localhost.sec.qq.com
+    - +.qq.com
+    - +.tencent.com
+    - +.msftconnecttest.com
+    - +.msftncsi.com
+  default-nameserver:
+    - tls://223.5.5.5
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  proxy-server-nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  direct-nameserver: []
+  nameserver-policy: {}
+
+proxy-groups:
+  - name: 代理模式
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/adjust.svg
+    proxies:
+      - 延迟优选
+      - 故障转移
+      - 手动选择
+      - 负载均衡(散列)
+      - 负载均衡(轮询)
+      - DIRECT
+      
+  - name: 延迟优选
+    type: url-test
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/speed.svg
+    use:
+      - myclash
+    hidden: true
+    
+  - name: 故障转移
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/ambulance.svg
+    use:
+      - myclash
+    hidden: true
+    
+  - name: 手动选择
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/link.svg
+    proxies:
+      - 🇭🇰 香港 - 自动选择
+      - 🇭🇰 香港 - 手动选择
+      - 🇹🇼 台湾 - 自动选择
+      - 🇹🇼 台湾 - 手动选择
+      - 🇸🇬 新加坡 - 自动选择
+      - 🇸🇬 新加坡 - 手动选择
+      - 🇦🇷 阿根廷 - 自动选择
+      - 🇦🇷 阿根廷 - 手动选择
+      - 🇯🇵 日本 - 自动选择
+      - 🇯🇵 日本 - 手动选择
+      - 🇺🇸 美国 - 自动选择
+      - 🇺🇸 美国 - 手动选择
+      - 🇩🇪 德国 - 自动选择
+      - 🇩🇪 德国 - 手动选择
+      - 🇰🇷 韩国 - 自动选择
+      - 🇰🇷 韩国 - 手动选择
+      - 🇬🇧 英国 - 自动选择
+      - 🇬🇧 英国 - 手动选择
+      - 🇨🇦 加拿大 - 自动选择
+      - 🇨🇦 加拿大 - 手动选择
+      - 🇦🇺 澳大利亚 - 自动选择
+      - 🇦🇺 澳大利亚 - 手动选择
+      - 🇪🇸 西班牙 - 自动选择
+      - 🇪🇸 西班牙 - 手动选择
+      - 🇳🇱 荷兰 - 自动选择
+      - 🇳🇱 荷兰 - 手动选择
+      - 🇹🇷 土耳其 - 自动选择
+      - 🇹🇷 土耳其 - 手动选择
+      - 🇷🇺 俄罗斯 - 自动选择
+      - 🇷🇺 俄罗斯 - 手动选择
+      - 🇮🇳 印度 - 自动选择
+      - 🇮🇳 印度 - 手动选择
+      - 🇧🇷 巴西 - 自动选择
+      - 🇧🇷 巴西 - 手动选择
+      - 🇮🇹 意大利 - 自动选择
+      - 🇮🇹 意大利 - 手动选择
+      - 🇨🇭 瑞士 - 自动选择
+      - 🇨🇭 瑞士 - 手动选择
+      - 🇸🇪 瑞典 - 自动选择
+      - 🇸🇪 瑞典 - 手动选择
+      - 🇳🇴 挪威 - 自动选择
+      - 🇳🇴 挪威 - 手动选择
+      - 其他 - 自动选择
+      - 其他 - 手动选择
+      
+  - name: 负载均衡(散列)
+    type: load-balance
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/balance.svg
+    interval: 300
+    strategy: consistent-hashing
+    lazy: true
+    max-failed-times: 3
+    use:
+      - myclash
+    hidden: true
+    
+  - name: 负载均衡(轮询)
+    type: load-balance
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/merry_go.svg
+    interval: 300
+    max-failed-times: 3
+    strategy: round-robin
+    lazy: true
+    use:
+      - myclash
+    hidden: true
+    
+  - name: 电报消息
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/telegram.svg
+    proxies:
+      - 代理模式
+      - 延迟优选
+      - 故障转移
+      - 手动选择
+      - 🇭🇰 香港 - 自动选择
+      - 🇭🇰 香港 - 手动选择
+      - 🇹🇼 台湾 - 自动选择
+      - 🇹🇼 台湾 - 手动选择
+      - 🇸🇬 新加坡 - 自动选择
+      - 🇸🇬 新加坡 - 手动选择
+      - 🇦🇷 阿根廷 - 自动选择
+      - 🇦🇷 阿根廷 - 手动选择
+      - 🇯🇵 日本 - 自动选择
+      - 🇯🇵 日本 - 手动选择
+      - 🇺🇸 美国 - 自动选择
+      - 🇺🇸 美国 - 手动选择
+      - 🇩🇪 德国 - 自动选择
+      - 🇩🇪 德国 - 手动选择
+      - 🇰🇷 韩国 - 自动选择
+      - 🇰🇷 韩国 - 手动选择
+      - 🇬🇧 英国 - 自动选择
+      - 🇬🇧 英国 - 手动选择
+      - 🇨🇦 加拿大 - 自动选择
+      - 🇨🇦 加拿大 - 手动选择
+      - 🇦🇺 澳大利亚 - 自动选择
+      - 🇦🇺 澳大利亚 - 手动选择
+      - 🇪🇸 西班牙 - 自动选择
+      - 🇪🇸 西班牙 - 手动选择
+      - 🇳🇱 荷兰 - 自动选择
+      - 🇳🇱 荷兰 - 手动选择
+      - 🇹🇷 土耳其 - 自动选择
+      - 🇹🇷 土耳其 - 手动选择
+      - 🇷🇺 俄罗斯 - 自动选择
+      - 🇷🇺 俄罗斯 - 手动选择
+      - 🇮🇳 印度 - 自动选择
+      - 🇮🇳 印度 - 手动选择
+      - 🇧🇷 巴西 - 自动选择
+      - 🇧🇷 巴西 - 手动选择
+      - 🇮🇹 意大利 - 自动选择
+      - 🇮🇹 意大利 - 手动选择
+      - 🇨🇭 瑞士 - 自动选择
+      - 🇨🇭 瑞士 - 手动选择
+      - 🇸🇪 瑞典 - 自动选择
+      - 🇸🇪 瑞典 - 手动选择
+      - 🇳🇴 挪威 - 自动选择
+      - 🇳🇴 挪威 - 手动选择
+      - 其他 - 自动选择
+      - 其他 - 手动选择
+      - DIRECT
+      
+  - name: AI
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/chatgpt.svg
+    proxies:
+      - 代理模式
+      - 延迟优选
+      - 故障转移
+      - 手动选择
+      - 🇭🇰 香港 - 自动选择
+      - 🇭🇰 香港 - 手动选择
+      - 🇹🇼 台湾 - 自动选择
+      - 🇹🇼 台湾 - 手动选择
+      - 🇸🇬 新加坡 - 自动选择
+      - 🇸🇬 新加坡 - 手动选择
+      - 🇦🇷 阿根廷 - 自动选择
+      - 🇦🇷 阿根廷 - 手动选择
+      - 🇯🇵 日本 - 自动选择
+      - 🇯🇵 日本 - 手动选择
+      - 🇺🇸 美国 - 自动选择
+      - 🇺🇸 美国 - 手动选择
+      - 🇩🇪 德国 - 自动选择
+      - 🇩🇪 德国 - 手动选择
+      - 🇰🇷 韩国 - 自动选择
+      - 🇰🇷 韩国 - 手动选择
+      - 🇬🇧 英国 - 自动选择
+      - 🇬🇧 英国 - 手动选择
+      - 🇨🇦 加拿大 - 自动选择
+      - 🇨🇦 加拿大 - 手动选择
+      - 🇦🇺 澳大利亚 - 自动选择
+      - 🇦🇺 澳大利亚 - 手动选择
+      - 🇪🇸 西班牙 - 自动选择
+      - 🇪🇸 西班牙 - 手动选择
+      - 🇳🇱 荷兰 - 自动选择
+      - 🇳🇱 荷兰 - 手动选择
+      - 🇹🇷 土耳其 - 自动选择
+      - 🇹🇷 土耳其 - 手动选择
+      - 🇷🇺 俄罗斯 - 自动选择
+      - 🇷🇺 俄罗斯 - 手动选择
+      - 🇮🇳 印度 - 自动选择
+      - 🇮🇳 印度 - 手动选择
+      - 🇧🇷 巴西 - 自动选择
+      - 🇧🇷 巴西 - 手动选择
+      - 🇮🇹 意大利 - 自动选择
+      - 🇮🇹 意大利 - 手动选择
+      - 🇨🇭 瑞士 - 自动选择
+      - 🇨🇭 瑞士 - 手动选择
+      - 🇸🇪 瑞典 - 自动选择
+      - 🇸🇪 瑞典 - 手动选择
+      - 🇳🇴 挪威 - 自动选择
+      - 🇳🇴 挪威 - 手动选择
+      - 其他 - 自动选择
+      - 其他 - 手动选择
+      - DIRECT
+      
+  - name: 流媒体
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/youtube.svg
+    proxies:
+      - 代理模式
+      - 延迟优选
+      - 故障转移
+      - 手动选择
+      - 🇭🇰 香港 - 自动选择
+      - 🇭🇰 香港 - 手动选择
+      - 🇹🇼 台湾 - 自动选择
+      - 🇹🇼 台湾 - 手动选择
+      - 🇸🇬 新加坡 - 自动选择
+      - 🇸🇬 新加坡 - 手动选择
+      - 🇦🇷 阿根廷 - 自动选择
+      - 🇦🇷 阿根廷 - 手动选择
+      - 🇯🇵 日本 - 自动选择
+      - 🇯🇵 日本 - 手动选择
+      - 🇺🇸 美国 - 自动选择
+      - 🇺🇸 美国 - 手动选择
+      - 🇩🇪 德国 - 自动选择
+      - 🇩🇪 德国 - 手动选择
+      - 🇰🇷 韩国 - 自动选择
+      - 🇰🇷 韩国 - 手动选择
+      - 🇬🇧 英国 - 自动选择
+      - 🇬🇧 英国 - 手动选择
+      - 🇨🇦 加拿大 - 自动选择
+      - 🇨🇦 加拿大 - 手动选择
+      - 🇦🇺 澳大利亚 - 自动选择
+      - 🇦🇺 澳大利亚 - 手动选择
+      - 🇪🇸 西班牙 - 自动选择
+      - 🇪🇸 西班牙 - 手动选择
+      - 🇳🇱 荷兰 - 自动选择
+      - 🇳🇱 荷兰 - 手动选择
+      - 🇹🇷 土耳其 - 自动选择
+      - 🇹🇷 土耳其 - 手动选择
+      - 🇷🇺 俄罗斯 - 自动选择
+      - 🇷🇺 俄罗斯 - 手动选择
+      - 🇮🇳 印度 - 自动选择
+      - 🇮🇳 印度 - 手动选择
+      - 🇧🇷 巴西 - 自动选择
+      - 🇧🇷 巴西 - 手动选择
+      - 🇮🇹 意大利 - 自动选择
+      - 🇮🇹 意大利 - 手动选择
+      - 🇨🇭 瑞士 - 自动选择
+      - 🇨🇭 瑞士 - 手动选择
+      - 🇸🇪 瑞典 - 自动选择
+      - 🇸🇪 瑞典 - 手动选择
+      - 🇳🇴 挪威 - 自动选择
+      - 🇳🇴 挪威 - 手动选择
+      - 其他 - 自动选择
+      - 其他 - 手动选择
+      - DIRECT
+      
+  - name: 苹果服务
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/apple.svg
+    proxies:
+      - 代理模式
+      - 延迟优选
+      - 故障转移
+      - 手动选择
+      - 🇭🇰 香港 - 自动选择
+      - 🇭🇰 香港 - 手动选择
+      - 🇹🇼 台湾 - 自动选择
+      - 🇹🇼 台湾 - 手动选择
+      - 🇸🇬 新加坡 - 自动选择
+      - 🇸🇬 新加坡 - 手动选择
+      - 🇦🇷 阿根廷 - 自动选择
+      - 🇦🇷 阿根廷 - 手动选择
+      - 🇯🇵 日本 - 自动选择
+      - 🇯🇵 日本 - 手动选择
+      - 🇺🇸 美国 - 自动选择
+      - 🇺🇸 美国 - 手动选择
+      - 🇩🇪 德国 - 自动选择
+      - 🇩🇪 德国 - 手动选择
+      - 🇰🇷 韩国 - 自动选择
+      - 🇰🇷 韩国 - 手动选择
+      - 🇬🇧 英国 - 自动选择
+      - 🇬🇧 英国 - 手动选择
+      - 🇨🇦 加拿大 - 自动选择
+      - 🇨🇦 加拿大 - 手动选择
+      - 🇦🇺 澳大利亚 - 自动选择
+      - 🇦🇺 澳大利亚 - 手动选择
+      - 🇪🇸 西班牙 - 自动选择
+      - 🇪🇸 西班牙 - 手动选择
+      - 🇳🇱 荷兰 - 自动选择
+      - 🇳🇱 荷兰 - 手动选择
+      - 🇹🇷 土耳其 - 自动选择
+      - 🇹🇷 土耳其 - 手动选择
+      - 🇷🇺 俄罗斯 - 自动选择
+      - 🇷🇺 俄罗斯 - 手动选择
+      - 🇮🇳 印度 - 自动选择
+      - 🇮🇳 印度 - 手动选择
+      - 🇧🇷 巴西 - 自动选择
+      - 🇧🇷 巴西 - 手动选择
+      - 🇮🇹 意大利 - 自动选择
+      - 🇮🇹 意大利 - 手动选择
+      - 🇨🇭 瑞士 - 自动选择
+      - 🇨🇭 瑞士 - 手动选择
+      - 🇸🇪 瑞典 - 自动选择
+      - 🇸🇪 瑞典 - 手动选择
+      - 🇳🇴 挪威 - 自动选择
+      - 🇳🇴 挪威 - 手动选择
+      - 其他 - 自动选择
+      - 其他 - 手动选择
+      - DIRECT
+      
+  - name: 微软服务
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/microsoft.svg
+    proxies:
+      - 代理模式
+      - 延迟优选
+      - 故障转移
+      - 手动选择
+      - 🇭🇰 香港 - 自动选择
+      - 🇭🇰 香港 - 手动选择
+      - 🇹🇼 台湾 - 自动选择
+      - 🇹🇼 台湾 - 手动选择
+      - 🇸🇬 新加坡 - 自动选择
+      - 🇸🇬 新加坡 - 手动选择
+      - 🇦🇷 阿根廷 - 自动选择
+      - 🇦🇷 阿根廷 - 手动选择
+      - 🇯🇵 日本 - 自动选择
+      - 🇯🇵 日本 - 手动选择
+      - 🇺🇸 美国 - 自动选择
+      - 🇺🇸 美国 - 手动选择
+      - 🇩🇪 德国 - 自动选择
+      - 🇩🇪 德国 - 手动选择
+      - 🇰🇷 韩国 - 自动选择
+      - 🇰🇷 韩国 - 手动选择
+      - 🇬🇧 英国 - 自动选择
+      - 🇬🇧 英国 - 手动选择
+      - 🇨🇦 加拿大 - 自动选择
+      - 🇨🇦 加拿大 - 手动选择
+      - 🇦🇺 澳大利亚 - 自动选择
+      - 🇦🇺 澳大利亚 - 手动选择
+      - 🇪🇸 西班牙 - 自动选择
+      - 🇪🇸 西班牙 - 手动选择
+      - 🇳🇱 荷兰 - 自动选择
+      - 🇳🇱 荷兰 - 手动选择
+      - 🇹🇷 土耳其 - 自动选择
+      - 🇹🇷 土耳其 - 手动选择
+      - 🇷🇺 俄罗斯 - 自动选择
+      - 🇷🇺 俄罗斯 - 手动选择
+      - 🇮🇳 印度 - 自动选择
+      - 🇮🇳 印度 - 手动选择
+      - 🇧🇷 巴西 - 自动选择
+      - 🇧🇷 巴西 - 手动选择
+      - 🇮🇹 意大利 - 自动选择
+      - 🇮🇹 意大利 - 手动选择
+      - 🇨🇭 瑞士 - 自动选择
+      - 🇨🇭 瑞士 - 手动选择
+      - 🇸🇪 瑞典 - 自动选择
+      - 🇸🇪 瑞典 - 手动选择
+      - 🇳🇴 挪威 - 自动选择
+      - 🇳🇴 挪威 - 手动选择
+      - 其他 - 自动选择
+      - 其他 - 手动选择
+      - DIRECT
+      
+  - name: GoogleFCM
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/google.svg
+    proxies:
+      - DIRECT
+      - 代理模式
+      - 延迟优选
+      - 故障转移
+      - 手动选择
+      - 🇭🇰 香港 - 自动选择
+      - 🇭🇰 香港 - 手动选择
+      - 🇹🇼 台湾 - 自动选择
+      - 🇹🇼 台湾 - 手动选择
+      - 🇸🇬 新加坡 - 自动选择
+      - 🇸🇬 新加坡 - 手动选择
+      - 🇦🇷 阿根廷 - 自动选择
+      - 🇦🇷 阿根廷 - 手动选择
+      - 🇯🇵 日本 - 自动选择
+      - 🇯🇵 日本 - 手动选择
+      - 🇺🇸 美国 - 自动选择
+      - 🇺🇸 美国 - 手动选择
+      - 🇩🇪 德国 - 自动选择
+      - 🇩🇪 德国 - 手动选择
+      - 🇰🇷 韩国 - 自动选择
+      - 🇰🇷 韩国 - 手动选择
+      - 🇬🇧 英国 - 自动选择
+      - 🇬🇧 英国 - 手动选择
+      - 🇨🇦 加拿大 - 自动选择
+      - 🇨🇦 加拿大 - 手动选择
+      - 🇦🇺 澳大利亚 - 自动选择
+      - 🇦🇺 澳大利亚 - 手动选择
+      - 🇪🇸 西班牙 - 自动选择
+      - 🇪🇸 西班牙 - 手动选择
+      - 🇳🇱 荷兰 - 自动选择
+      - 🇳🇱 荷兰 - 手动选择
+      - 🇹🇷 土耳其 - 自动选择
+      - 🇹🇷 土耳其 - 手动选择
+      - 🇷🇺 俄罗斯 - 自动选择
+      - 🇷🇺 俄罗斯 - 手动选择
+      - 🇮🇳 印度 - 自动选择
+      - 🇮🇳 印度 - 手动选择
+      - 🇧🇷 巴西 - 自动选择
+      - 🇧🇷 巴西 - 手动选择
+      - 🇮🇹 意大利 - 自动选择
+      - 🇮🇹 意大利 - 手动选择
+      - 🇨🇭 瑞士 - 自动选择
+      - 🇨🇭 瑞士 - 手动选择
+      - 🇸🇪 瑞典 - 自动选择
+      - 🇸🇪 瑞典 - 手动选择
+      - 🇳🇴 挪威 - 自动选择
+      - 🇳🇴 挪威 - 手动选择
+      - 其他 - 自动选择
+      - 其他 - 手动选择
+      
+  - name: Steam地区
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/google.svg
+    proxies:
+      - DIRECT
+      - 代理模式
+      - 延迟优选
+      - 故障转移
+      - 手动选择
+      - 🇭🇰 香港 - 自动选择
+      - 🇭🇰 香港 - 手动选择
+      - 🇹🇼 台湾 - 自动选择
+      - 🇹🇼 台湾 - 手动选择
+      - 🇸🇬 新加坡 - 自动选择
+      - 🇸🇬 新加坡 - 手动选择
+      - 🇦🇷 阿根廷 - 自动选择
+      - 🇦🇷 阿根廷 - 手动选择
+      - 🇯🇵 日本 - 自动选择
+      - 🇯🇵 日本 - 手动选择
+      - 🇺🇸 美国 - 自动选择
+      - 🇺🇸 美国 - 手动选择
+      - 🇩🇪 德国 - 自动选择
+      - 🇩🇪 德国 - 手动选择
+      - 🇰🇷 韩国 - 自动选择
+      - 🇰🇷 韩国 - 手动选择
+      - 🇬🇧 英国 - 自动选择
+      - 🇬🇧 英国 - 手动选择
+      - 🇨🇦 加拿大 - 自动选择
+      - 🇨🇦 加拿大 - 手动选择
+      - 🇦🇺 澳大利亚 - 自动选择
+      - 🇦🇺 澳大利亚 - 手动选择
+      - 🇪🇸 西班牙 - 自动选择
+      - 🇪🇸 西班牙 - 手动选择
+      - 🇳🇱 荷兰 - 自动选择
+      - 🇳🇱 荷兰 - 手动选择
+      - 🇹🇷 土耳其 - 自动选择
+      - 🇹🇷 土耳其 - 手动选择
+      - 🇷🇺 俄罗斯 - 自动选择
+      - 🇷🇺 俄罗斯 - 手动选择
+      - 🇮🇳 印度 - 自动选择
+      - 🇮🇳 印度 - 手动选择
+      - 🇧🇷 巴西 - 自动选择
+      - 🇧🇷 巴西 - 手动选择
+      - 🇮🇹 意大利 - 自动选择
+      - 🇮🇹 意大利 - 手动选择
+      - 🇨🇭 瑞士 - 自动选择
+      - 🇨🇭 瑞士 - 手动选择
+      - 🇸🇪 瑞典 - 自动选择
+      - 🇸🇪 瑞典 - 手动选择
+      - 🇳🇴 挪威 - 自动选择
+      - 🇳🇴 挪威 - 手动选择
+      - 其他 - 自动选择
+      - 其他 - 手动选择
+      
+  - name: 漏网之鱼
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/fish.svg
+    proxies:
+      - DIRECT
+      - 代理模式
+      
+  # ====================香港===================================
+  - name: "🇭🇰 香港 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/hk.svg
+    use:
+      - myclash
+    filter: "香港|HK|Hong Kong|🇭🇰"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇭🇰 香港 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/hk.svg
+    use:
+      - myclash
+    filter: "香港|HK|Hong Kong|🇭🇰"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+    
+  # ====================台湾===================================
+  - name: "🇹🇼 台湾 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/tw.svg
+    use:
+      - myclash
+    filter: "台湾|TW|Taiwan|🇹🇼"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇹🇼 台湾 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/tw.svg
+    use:
+      - myclash
+    filter: "台湾|TW|Taiwan|🇹🇼"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================新加坡===================================
+  - name: "🇸🇬 新加坡 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/sg.svg
+    use:
+      - myclash
+    filter: "新加坡|狮城|SG|Singapore|🇸🇬"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇸🇬 新加坡 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/sg.svg
+    use:
+      - myclash
+    filter: "新加坡|狮城|SG|Singapore|🇸🇬"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+    
+  # ====================阿根廷===================================
+  - name: "🇦🇷 阿根廷 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/ar.svg
+    use:
+      - myclash
+    filter: "阿根廷|AR|Argentina|🇦🇷"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇦🇷 阿根廷 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/ar.svg
+    use:
+      - myclash
+    filter: "阿根廷|AR|Argentina|🇦🇷"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================日本===================================
+  - name: "🇯🇵 日本 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/jp.svg
+    use:
+      - myclash
+    filter: "日本|JP|Japan|🇯🇵"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇯🇵 日本 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/jp.svg
+    use:
+      - myclash
+    filter: "日本|JP|Japan|🇯🇵"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================美国===================================
+  - name: "🇺🇸 美国 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/us.svg
+    use:
+      - myclash
+    filter: "美国|US|USA|United States|America|🇺🇸"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇺🇸 美国 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/us.svg
+    use:
+      - myclash
+    filter: "美国|US|USA|United States|America|🇺🇸"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================德国===================================
+  - name: "🇩🇪 德国 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/de.svg
+    use:
+      - myclash
+    filter: "德国|DE|Germany|🇩🇪"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇩🇪 德国 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/de.svg
+    use:
+      - myclash
+    filter: "德国|DE|Germany|🇩🇪"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================韩国===================================
+  - name: "🇰🇷 韩国 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/kr.svg
+    use:
+      - myclash
+    filter: "韩国|KR|Korea|South Korea|🇰🇷"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇰🇷 韩国 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/kr.svg
+    use:
+      - myclash
+    filter: "韩国|KR|Korea|South Korea|🇰🇷"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================英国===================================
+  - name: "🇬🇧 英国 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/gb.svg
+    use:
+      - myclash
+    filter: "英国|UK|United Kingdom|Britain|Great Britain|🇬🇧"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇬🇧 英国 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/gb.svg
+    use:
+      - myclash
+    filter: "英国|UK|United Kingdom|Britain|Great Britain|🇬🇧"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================加拿大===================================
+  - name: "🇨🇦 加拿大 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/ca.svg
+    use:
+      - myclash
+    filter: "加拿大|CA|Canada|🇨🇦"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇨🇦 加拿大 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/ca.svg
+    use:
+      - myclash
+    filter: "加拿大|CA|Canada|🇨🇦"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================澳大利亚===================================
+  - name: "🇦🇺 澳大利亚 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/au.svg
+    use:
+      - myclash
+    filter: "澳大利亚|AU|Australia|🇦🇺"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇦🇺 澳大利亚 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/au.svg
+    use:
+      - myclash
+    filter: "澳大利亚|AU|Australia|🇦🇺"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================西班牙===================================
+  - name: "🇪🇸 西班牙 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/es.svg
+    use:
+      - myclash
+    filter: "西班牙|ES|Spain|🇪🇸"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇪🇸 西班牙 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/es.svg
+    use:
+      - myclash
+    filter: "西班牙|ES|Spain|🇪🇸"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================荷兰===================================
+  - name: "🇳🇱 荷兰 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/nl.svg
+    use:
+      - myclash
+    filter: "荷兰|NL|Netherlands|🇳🇱"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇳🇱 荷兰 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/nl.svg
+    use:
+      - myclash
+    filter: "荷兰|NL|Netherlands|🇳🇱"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================土耳其===================================
+  - name: "🇹🇷 土耳其 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/tr.svg
+    use:
+      - myclash
+    filter: "土耳其|TR|Turkey|🇹🇷"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇹🇷 土耳其 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/tr.svg
+    use:
+      - myclash
+    filter: "土耳其|TR|Turkey|🇹🇷"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================俄罗斯===================================
+  - name: "🇷🇺 俄罗斯 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/ru.svg
+    use:
+      - myclash
+    filter: "俄罗斯|RU|Russia|🇷🇺"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇷🇺 俄罗斯 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/ru.svg
+    use:
+      - myclash
+    filter: "俄罗斯|RU|Russia|🇷🇺"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================印度===================================
+  - name: "🇮🇳 印度 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/in.svg
+    use:
+      - myclash
+    filter: "印度|IN|India|🇮🇳"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇮🇳 印度 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/in.svg
+    use:
+      - myclash
+    filter: "印度|IN|India|🇮🇳"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================巴西===================================
+  - name: "🇧🇷 巴西 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/br.svg
+    use:
+      - myclash
+    filter: "巴西|BR|Brazil|🇧🇷"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇧🇷 巴西 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/br.svg
+    use:
+      - myclash
+    filter: "巴西|BR|Brazil|🇧🇷"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================意大利===================================
+  - name: "🇮🇹 意大利 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/it.svg
+    use:
+      - myclash
+    filter: "意大利|IT|Italy|🇮🇹"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇮🇹 意大利 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/it.svg
+    use:
+      - myclash
+    filter: "意大利|IT|Italy|🇮🇹"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================瑞士===================================
+  - name: "🇨🇭 瑞士 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/ch.svg
+    use:
+      - myclash
+    filter: "瑞士|CH|Switzerland|🇨🇭"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇨🇭 瑞士 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/ch.svg
+    use:
+      - myclash
+    filter: "瑞士|CH|Switzerland|🇨🇭"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================瑞典===================================
+  - name: "🇸🇪 瑞典 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/se.svg
+    use:
+      - myclash
+    filter: "瑞典|SE|Sweden|🇸🇪"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇸🇪 瑞典 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/se.svg
+    use:
+      - myclash
+    filter: "瑞典|SE|Sweden|🇸🇪"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================挪威===================================
+  - name: "🇳🇴 挪威 - 自动选择"
+    type: fallback
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/no.svg
+    use:
+      - myclash
+    filter: "挪威|NO|Norway|🇳🇴"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: true
+    
+  - name: "🇳🇴 挪威 - 手动选择"
+    type: select
+    icon: https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/flags/no.svg
+    use:
+      - myclash
+    filter: "挪威|NO|Norway|🇳🇴"
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    hidden: false
+  # ===========================================================
+  
+  # ====================其他===================================
+  - name: "其他 - 自动选择"
+    type: fallback
+    use:
+      - myclash
+    exclude-filter: 香港|日本|新加坡|台湾|美国|英国|阿根廷|俄罗斯|土耳其|韩国|印度|德国|加拿大|澳大利亚|法国|乌克兰
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+    
+  - name: "其他 - 手动选择"
+    type: select
+    use:
+      - myclash
+    exclude-filter: 香港|日本|新加坡|台湾|美国|英国|阿根廷|俄罗斯|土耳其|韩国|印度|德国|加拿大|澳大利亚|法国|乌克兰
+    url: https://cp.cloudflare.com/generate_204
+    interval: 300
+  # ===========================================================
+  
+#-------------------------------------------------------------------
+#用户自定义规则，文件在模块目录/rule-provider/
+#如有需要请参考官方文档写入
+#如果想要删除两个自定义规则，需要把上面dns配置内对自定义规则的设置删除，否则内核将无法启动
+
+rule-providers:
+  Reject_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/REJECT/ip/Reject_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/REJECT/ip/Reject_ip.yaml
+  Reject_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/REJECT/no_ip/Reject_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/REJECT/no_ip/Reject_no_ip.yaml
+  Reject_domainset:
+    type: http
+    interval: 1800
+    behavior: domain
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/REJECT/no_ip/Reject_domainset.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/REJECT/no_ip/Reject_domainset.yaml
+  Reject_no_ip_drop:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/REJECT/no_ip/Reject_no_ip_drop.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/REJECT/no_ip/Reject_no_ip_drop.yaml
+  Reject_no_ip_no_drop:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/REJECT/no_ip/Reject_no_ip_no_drop.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/REJECT/no_ip/Reject_no_ip_no_drop.yaml
+  China_ip:
+    type: http
+    interval: 1800
+    behavior: ipcidr
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/China_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/China_ip.yaml
+  Domestic_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/Domestic_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/Domestic_ip.yaml
+  GoogleFCM_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/GoogleFCM_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/GoogleFCM_ip.yaml
+  Lan_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/Lan_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/Lan_ip.yaml
+  NetEaseMusic_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/NetEaseMusic_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/NetEaseMusic_ip.yaml
+  SteamCN_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/ip/SteamCN_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/ip/SteamCN_ip.yaml
+  AppleCDN_no_ip:
+    type: http
+    interval: 1800
+    behavior: domain
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/AppleCDN_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/AppleCDN_no_ip.yaml
+  AppleCN_no_ip:
+    type: http
+    interval: 1800
+    behavior: domain
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/AppleCN_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/AppleCN_no_ip.yaml
+  Direct_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/Direct_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/Direct_no_ip.yaml
+  Domestic_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/Domestic_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/Domestic_no_ip.yaml
+  GoogleFCM_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/GoogleFCM_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/GoogleFCM_no_ip.yaml
+  Lan_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/Lan_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/Lan_no_ip.yaml
+  MicrosoftCDN_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/MicrosoftCDN_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/MicrosoftCDN_no_ip.yaml
+  NetEaseMusic_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/NetEaseMusic_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/NetEaseMusic_no_ip.yaml
+  SteamCN_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/SteamCN_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/SteamCN_no_ip.yaml
+  SteamRegion_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/SteamRegion_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/SteamRegion_no_ip.yaml
+  Stream_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/ip/Stream_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/ip/Stream_ip.yaml
+  Telegram_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/ip/Telegram_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/ip/Telegram_ip.yaml
+  AI_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/AI_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/AI_no_ip.yaml
+  Apple_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Apple_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Apple_no_ip.yaml
+  CDN_domainset:
+    type: http
+    interval: 1800
+    behavior: domain
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/CDN_domainset.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/CDN_domainset.yaml
+  CDN_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/CDN_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/CDN_no_ip.yaml
+  CustomProxy_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/CustomProxy_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/CustomProxy_no_ip.yaml
+  Download_domainset:
+    type: http
+    interval: 1800
+    behavior: domain
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Download_domainset.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Download_domainset.yaml
+  Download_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Download_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Download_no_ip.yaml
+  Global_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Global_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Global_no_ip.yaml
+  Microsoft_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Microsoft_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Microsoft_no_ip.yaml
+  Steam_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Steam_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Steam_no_ip.yaml
+  Stream_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Stream_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Stream_no_ip.yaml
+  Telegram_no_ip:
+    type: http
+    interval: 1800
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Telegram_no_ip.yaml
+    path: ./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Telegram_no_ip.yaml
+rules:
+  - RULE-SET,Reject_no_ip,REJECT
+  - RULE-SET,Reject_domainset,REJECT
+  - RULE-SET,Reject_no_ip_drop,REJECT-DROP
+  - RULE-SET,Reject_no_ip_no_drop,REJECT
+  - RULE-SET,CustomProxy_no_ip,代理模式
+  - RULE-SET,GoogleFCM_no_ip,GoogleFCM
+  - RULE-SET,NetEaseMusic_no_ip,DIRECT
+  - RULE-SET,SteamRegion_no_ip,Steam地区
+  - RULE-SET,SteamCN_no_ip,DIRECT
+  - RULE-SET,Steam_no_ip,代理模式
+  - RULE-SET,CDN_domainset,代理模式
+  - RULE-SET,CDN_no_ip,代理模式
+  - RULE-SET,Stream_no_ip,流媒体
+  - RULE-SET,Telegram_no_ip,电报消息
+  - RULE-SET,AppleCDN_no_ip,DIRECT
+  - RULE-SET,AppleCN_no_ip,DIRECT
+  - RULE-SET,MicrosoftCDN_no_ip,DIRECT
+  - RULE-SET,Download_domainset,代理模式
+  - RULE-SET,Download_no_ip,代理模式
+  - RULE-SET,Apple_no_ip,苹果服务
+  - RULE-SET,Microsoft_no_ip,微软服务
+  - RULE-SET,AI_no_ip,AI
+  - RULE-SET,Global_no_ip,代理模式
+  - RULE-SET,Domestic_no_ip,DIRECT
+  - RULE-SET,Direct_no_ip,DIRECT
+  - RULE-SET,Lan_no_ip,DIRECT
+  - RULE-SET,GoogleFCM_ip,GoogleFCM
+  - RULE-SET,NetEaseMusic_ip,DIRECT
+  - RULE-SET,SteamCN_ip,DIRECT
+  - RULE-SET,Reject_ip,REJECT
+  - RULE-SET,Telegram_ip,电报消息
+  - RULE-SET,Stream_ip,流媒体
+  - RULE-SET,Domestic_ip,DIRECT
+  - RULE-SET,China_ip,DIRECT
+  - RULE-SET,Lan_ip,DIRECT
+  - GEOIP,CN,DIRECT
+  - GEOSITE,cn,DIRECT
+  - MATCH,漏网之鱼
 ```
