@@ -9,3 +9,16 @@ payload:
   - DOMAIN-KEYWORD,repo.panda-lang.org
   - DOMAIN-KEYWORD,port.nomao.top
   - DOMAIN-KEYWORD,nodeseek.com
+  - DOMAIN-KEYWORD,linux.do
+  - DOMAIN-SUFFIX,maven.minecraftforge.net
+  - DOMAIN-REGEX,^nikke-[a-z]{2}\.com$
+  - DOMAIN-KEYWORD,tokenpocket.pro
+  - DOMAIN-KEYWORD,8comic.com
+  - DOMAIN-KEYWORD,itch.io
+  - DOMAIN-KEYWORD,forgecdn.net
+  - DOMAIN-SUFFIX,api.curseforge.com
+  - DOMAIN-SUFFIX,libraries.minecraft.net
+  - DOMAIN-SUFFIX,api.modrinth.com
+  - DOMAIN-SUFFIX,meta.prismlauncher.org
+  - DOMAIN-SUFFIX,resources.download.minecraft.net
+  - DOMAIN-KEYWORD,pingme.tel
