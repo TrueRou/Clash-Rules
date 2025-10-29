@@ -871,8 +871,8 @@ function overwriteRules(params) {
         // Steam 地区域名
         SteamRegion_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/SteamRegion_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/DIRECT/no_ip/SteamRegion_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash_Rule_DIY/refs/heads/mihomo/DIRECT/no_ip/SteamRegion_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash_Rule_DIY/DIRECT/no_ip/SteamRegion_no_ip.yaml",
         },
 
         // ##################################################################################################################
@@ -886,8 +886,8 @@ function overwriteRules(params) {
         // Bilibili IP
         Bilibili: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Bilibili_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/ip/Bilibili_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Bilibili_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash_Rule_DIY/PROXY/ip/Bilibili_no_ip.yaml",
         },
         
         // 流媒体 IP
@@ -986,8 +986,8 @@ function overwriteRules(params) {
         // 流媒体域名
         Emby_no_ip: {
             ...ruleAnchor.classical,
-            url: "https://raw.githubusercontent.com/RealSeek/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Emby_no_ip.yaml",
-            path: "./ruleset/RealSeek/Clash_Rule_DIY/PROXY/no_ip/Emby_no_ip.yaml",
+            url: "https://raw.githubusercontent.com/TrueRou/Clash_Rule_DIY/refs/heads/mihomo/PROXY/no_ip/Emby_no_ip.yaml",
+            path: "./ruleset/TrueRou/Clash_Rule_DIY/PROXY/no_ip/Emby_no_ip.yaml",
         },
 
         // telegram 域名

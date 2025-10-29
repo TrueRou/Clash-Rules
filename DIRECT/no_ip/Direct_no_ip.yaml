@@ -169,8 +169,6 @@ payload:
   - DOMAIN-SUFFIX,30.172.in-addr.arpa
   - DOMAIN-SUFFIX,31.172.in-addr.arpa
   - DOMAIN-SUFFIX,168.192.in-addr.arpa
-  - DOMAIN-SUFFIX,ppy.sb
-  - DOMAIN-SUFFIX,osu.icu
   - DOMAIN-SUFFIX,zretc.net
   - DOMAIN-KEYWORD,cnki.net
   - DOMAIN-KEYWORD,wanfangdata
